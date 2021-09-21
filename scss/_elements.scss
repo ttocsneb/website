@@ -19,7 +19,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
+    color: $primary;
     text-decoration: none;
+}
+
+ul {
+    list-style-type: disc;
+    > li {
+        margin-left: 2rem;
+    }
 }
 
 a:hover {
@@ -29,4 +37,16 @@ a:hover {
 img {
     max-width: 100%;
     margin-bottom: 1.5rem;
+}
+
+body {
+    background-color: $light;
+    color: $text-dark;
+
+    > :not(.body) {
+        flex-shrink: 0;
+    }
+    > .body {
+        flex: 1 0 auto;
+    }
 }

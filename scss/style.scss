@@ -1,7 +1,11 @@
+@use "sass:map";
+
+@import "mixins/darkmode";
+@import "variables";
 @import "mixins/maps";
 
-@import "variables";
 @import "elements";
+@import "nav";
 
 @import "colors";
 @import "display";

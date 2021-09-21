@@ -1,0 +1,66 @@
+
+.navbar {
+    background-color: $color-dark;
+    color: $text-color-light;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+    font-size: 1.25rem;
+
+    @include darkmode {
+        background-color: darken($color-dark, 10%);
+        color: $text-color-light;
+    }
+
+    > * {
+        margin-right: 8px; 
+    }
+
+    @include size("xs") {
+        flex-direction: column;
+
+        > * {
+            margin-right: 0px;
+            margin-bottom: 8px;
+        }
+    }
+
+    .nav-items {
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        > li {
+            margin: 0;
+            margin-right: 8px;
+        }
+
+        a {
+            color: $text-color-light;
+
+            &:hover {
+                color: $text-gray;
+            }
+        }
+
+        .active {
+            color: $text-gray;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+
+        @include size("xs") {
+            flex-direction: column;
+
+            > li {
+                margin-right: 0px;
+                margin-top: 8px;
+            }
+        }
+
+    }
+}
