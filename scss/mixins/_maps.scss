@@ -1,0 +1,18 @@
+
+@mixin map($map) {
+    @each $key, $value in $map {
+        &-#{$key} {
+            @content($value);
+        }
+    }
+}
+
+@mixin sizes {
+    @each $key, $width in $sizes {
+        @media only screen and (min-width: $width) {
+            &-#{$key} {
+                @content;
+            }
+        }
+    }
+}

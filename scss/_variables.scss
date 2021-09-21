@@ -1,0 +1,59 @@
+// CSS Variables
+
+:root {
+    --white: #fff;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --white: #000;
+        --light: #343a40;
+        --dark: #f8f9fa;
+    }
+}
+
+// Sizes
+
+$size-xs: 0px;
+$size-sm: 750px;
+$size-md: 1000px;
+$size-lg: 1200px;
+
+$sizes: (
+    "xs": $size-xs,
+    "sm": $size-sm,
+    "md": $size-md,
+    "lg": $size-lg
+);
+
+// Colors
+
+$color-primary: var(--primary);
+$color-secondary: var(--secondary);
+$color-success: var(--success);
+$color-danger: var(--danger);
+$color-warning: var(--warning);
+$color-info: var(--info);
+$color-light: var(--light);
+$color-dark: var(--dark);
+$color-white: var(--white);
+
+$colors: (
+    "primary": $color-primary,
+    "secondary": $color-secondary,
+    "success": $color-success,
+    "danger": $color-danger,
+    "warning": $color-warning,
+    "info": $color-info,
+    "light": $color-light,
+    "dark": $color-dark,
+    "white": $color-white
+);

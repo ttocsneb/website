@@ -1,0 +1,16 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "Personal Project for CS260",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "sass": "^1.42.0"
+  },
+  "scripts": {
+    "sass": "node node_modules/sass/sass.js -I scss scss/style.scss:css/styles.css",
+    "sasswatch": "node node_modules/sass/sass.js -I scss scss/style.scss:css/styles.css -w"
+  },
+  "author": "Benjamin Jacobs",
+  "license": "ISC"
+}

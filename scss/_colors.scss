@@ -1,0 +1,11 @@
+
+.color {
+    @include map($colors) using ($color) {
+        color: $color;
+    }
+    @include sizes {
+        @include map($colors) using ($color) {
+            color: $color;
+        }
+    }
+}
