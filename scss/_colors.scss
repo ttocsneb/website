@@ -9,3 +9,14 @@
         }
     }
 }
+
+.bg {
+    @include map($colors) using ($color) {
+        background-color: $color;
+    }
+    @include sizes {
+        @include map($colors) using ($color) {
+            background-color: $color;
+        }
+    }
+}
