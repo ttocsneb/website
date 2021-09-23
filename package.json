@@ -8,8 +8,8 @@
     "sass": "^1.42.0"
   },
   "scripts": {
-    "sass": "node node_modules/sass/sass.js -I scss scss/style.scss:css/styles.css",
-    "sasswatch": "node node_modules/sass/sass.js -I scss scss/style.scss:css/styles.css -w"
+    "sass": "node node_modules/sass/sass.js -I scss scss/style.scss:css/styles.css --style compressed",
+    "sasswatch": "node node_modules/sass/sass.js -I scss scss/style.scss:css/styles.css -w --style compressed"
   },
   "author": "Benjamin Jacobs",
   "license": "ISC"

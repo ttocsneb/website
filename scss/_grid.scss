@@ -1,0 +1,21 @@
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.col {
+    flex: 1;
+
+    @for $i from 1 through 12 {
+        &-#{$i} {
+            width: calc($i / 12 * 100%);
+        }
+        @include sizes {
+            &-#{$i} {
+                width: calc($i / 12 * 100%);
+            }
+        }
+    }
+}
