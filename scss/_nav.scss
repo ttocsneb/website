@@ -5,11 +5,21 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 8px;
+    padding: 16px;
     font-size: 1.25rem;
 
     * {
         margin: 0;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        a {
+            color: $text-color-light;
+
+            &.active:hover {
+                @include nounderline;
+            }
+        }
     }
 
     @include darkmode {
@@ -18,7 +28,7 @@
     }
 
     > * {
-        margin-right: 8px; 
+        margin-right: 16px; 
     }
 
     @include size("xs") {
@@ -26,7 +36,7 @@
 
         > * {
             margin-right: 0px;
-            margin-bottom: 8px;
+            margin-bottom: 16px;
         }
     }
 
@@ -38,7 +48,7 @@
 
         > li {
             margin: 0;
-            margin-right: 8px;
+            margin-right: 16px;
         }
 
         a {
@@ -53,7 +63,7 @@
             color: $text-gray;
 
             &:hover {
-                text-decoration: none;
+                @include nounderline;
             }
         }
 
@@ -62,7 +72,7 @@
 
             > li {
                 margin-right: 0px;
-                margin-top: 8px;
+                margin-top: 16px;
             }
         }
 
