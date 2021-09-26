@@ -107,3 +107,41 @@ $align-content: (
         }
     }
 }
+
+.order {
+    @for $i from 1 through 6 {
+        &-#{$i} {
+            order: $i;
+        }
+    }
+    @include sizes {
+        @for $i from 1 through 6 {
+            &-#{$i} {
+                order: $i;
+            }
+        }
+    }
+}
+
+// Float
+
+$sides: (
+    "left": left,
+    "right": right,
+    "none": none
+);
+
+.float {
+    @include map($sides) using ($val) {
+        float: $val;
+    }
+    @include sizes {
+        @include map($sides) using ($val) {
+            float: $val;
+        }
+    }
+
+    &-overflow {
+        overflow: hidden;
+    }
+}

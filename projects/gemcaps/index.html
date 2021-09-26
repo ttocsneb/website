@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>GemCaps</title>
+
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <h4><a href="/">Benjaminja</a></h4>
+      <ul class="nav-items">
+        <li><a href="/">Projects</a></li>
+        <li><a href="http://cs260.benjaminja.info/">CS260</a></li>
+      </ul>
+    </nav>
+    <div class="body">
+      <div class="container-sm mt-5">
+        <ul class="path">
+            <li><a href="/">Projects</a></li>
+            <li>GemCaps</li>
+        </ul>
+        <div class="d-flex align-items-center">
+            <h2>GemCaps</h2>
+            <h2 class="ms-auto"><a href="https://github.com/ttocsneb/gemcaps" target="_blank"><i class="fas fa-code-branch" title="Source"></i></a></h2>
+        </div>
+        <hr>
+        <p>
+          Gemcaps is an optimized server for the
+          <a href="https://gemini.circumlunar.space/" target="_blank">
+          gemini protocol</a>. I hope to make this software easy to configure,
+          but alsohighly configurable.
+        </p>
+        <p>
+          The gemini protocol aims to be simple and unextensible. I like that,
+          however, I want to have servers be extensible. It would be nice to
+          have a central server that acts as a proxy to other servers in the
+          same domain. To allow the central server to cache pages to allow for
+          quicker response times. Along with so much more.
+        </p>
+        <h4>Dependencies</h4>
+        <p>
+            GemCaps depends on <a href="https://libuv.org/">libuv</a>: An
+            asynchronous multiplatform library that handles system calls
+            for you. It is the same library used by NodeJS. This allows me to
+            write low level optimized code that works on all architectures.
+        </p>
+        <p>
+            Another dependency of GemCaps is 
+            <a href="https://github.com/jbeder/yaml-cpp">YAML-cpp</a>, which
+            I'm using for reading/writing configuration files.
+        </p>
+        <hr>
+        <h3>Updates</h3>
+        <p>
+          <a href="updates/">See all updates</a>
+        </p>
+      </div>
+    </div>
+    <div class="navbar">
+        <ul class="nav-items ms-auto">
+            <li><a href="https://github.com/ttocsneb/website/"><i class="fab fa-github me-2"></i>Source</a></li>
+        </ul>
+    </div>
+  </body>
+</html>

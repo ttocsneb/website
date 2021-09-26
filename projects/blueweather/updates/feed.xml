@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+ <title>Updates for BlueWeather</title>
+ <description>Updates for BlueWeather</description>
+ <link>http://benjaminja.info/projects/blueweather/updates</link>
+ <lastBuildDate>Sat, 25 Sep 2021 00:22:00 -0700</lastBuildDate>
+ <pubDate>Wed, 15 Sep 2021 00:22:00 -0700</pubDate>
+ <ttl>1800</ttl>
+
+ <item>
+  <title>Getting Back to work on the project</title>
+  <description>Getting Back to work on the project</description>
+  <link>http://benjaminja.info/projects/blueweather/updates/21-9-15/</link>
+  <guid isPermaLink="false">fc87e5b4-cc68-4db4-b3f7-e81b5bb63655</guid>
+  <pubDate>Wed, 15 Sep 2021 00:22:00 -0700</pubDate>
+ </item>
+
+</channel>
+</rss>

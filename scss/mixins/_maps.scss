@@ -8,15 +8,14 @@
 }
 
 $sizes: (
-    "xs": "(max-width: #{$size-sm - 1})",
-    "sm": "(min-width: #{$size-sm}) and (max-width: #{$size-md - 1})",
-    "md": "(min-width: #{$size-md}) and (max-width: #{$size-lg - 1})",
-    "lg": "(min-width: #{$size-lg})"
+    "sm": $size-sm,
+    "md": $size-md,
+    "lg": $size-lg 
 );
 
 @mixin sizes {
     @each $key, $width in $sizes {
-        @media only screen and #{$width} {
+        @media only screen and (min-width: $width) {
             &-#{$key} {
                 @content;
             }
@@ -25,7 +24,7 @@ $sizes: (
 }
 
 @mixin size($size) {
-    @media only screen and #{map.get($sizes, $size)} {
+    @media only screen and (min-width: #{map.get($sizes, $size)}) {
         @content;
     }
 }

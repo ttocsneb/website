@@ -5,10 +5,20 @@ $sizing: (
 );
 
 .w {
+    @for $i from 1 through 12 {
+        &-#{$i} {
+            width: calc($i / 12 * 100%);
+        }
+    }
     @include map($sizing) using ($val) {
         width: $val;
     }
     @include sizes {
+        @for $i from 1 through 12 {
+            &-#{$i} {
+                width: calc($i / 12 * 100%);
+            }
+        }
         @include map($sizing) using ($val) {
             width: $val;
         }
