@@ -13,9 +13,13 @@
     <nav class="navbar">
       <h4><a href="/">Benjaminja</a></h4>
       <ul class="nav-items">
-        <li><a href="/">Projects</a></li>
-        <li><a href="/projects/blueweather/">BlueWeather</a></li>
-        <li><a href="/projects/gemcaps/">GemCaps</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
+          <ul class="dropdown-menu show">
+            <li><a href="/projects/blueweather/">BlueWeather</a></li>
+            <li><a href="/projects/gemcaps/">GemCaps</a></li>
+          </ul>
+        </li>
       </ul>
     </nav>
     <div class="body">
@@ -45,4 +49,6 @@
         </ul>
     </div>
   </body>
+
+    <script src="/js/main.js"></script>
 </html>

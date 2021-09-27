@@ -5,7 +5,9 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "sass": "^1.42.0"
+    "sass": "^1.42.0",
+    "webpack": "^5.54.0",
+    "webpack-cli": "^4.8.0"
   },
   "scripts": {
     "sass": "node node_modules/sass/sass.js -I scss scss/style.scss:css/styles.css --style compressed",

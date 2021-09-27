@@ -79,4 +79,17 @@
         }
 
     }
+
+    .dropdown {
+        text-align: center;
+    }
+
+    .dropdown-menu {
+        background-color: $color-dark;
+        position: relative;
+
+        @include size("sm") {
+            position: absolute;
+        }
+    }
 }

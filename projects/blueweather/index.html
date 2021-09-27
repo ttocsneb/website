@@ -13,9 +13,13 @@
     <nav class="navbar">
       <h4><a href="/">Benjaminja</a></h4>
       <ul class="nav-items">
-        <li><a href="/">Projects</a></li>
-        <li><a class="active" href="#">BlueWeather</a></li>
-        <li><a href="/projects/gemcaps/">GemCaps</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
+          <ul class="dropdown-menu">
+            <li><a class="active" href="#">BlueWeather</a></li>
+            <li><a href="/projects/gemcaps/">GemCaps</a></li>
+          </ul>
+        </li>
       </ul>
     </nav>
     <div class="body">
@@ -72,5 +76,7 @@
         <li><a href="https://github.com/ttocsneb/website/"><i class="fab fa-github me-2"></i>Source</a></li>
       </ul>
     </div>
+
+    <script src="/js/main.js"></script>
   </body>
 </html>
