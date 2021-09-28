@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const parseMD = require('parse-md').default;
 const marked = require('marked');
+const async = require('./async');
 
 const data = path.resolve(__dirname, "../data");
 
@@ -9,35 +10,28 @@ const data = path.resolve(__dirname, "../data");
 /**
  * 
  * @param {string} dir 
- * @param {(items: {files: Array<string>, folders: Array<string>}) => void} callback 
+ * @param {(error, items: {files: Array<string>, folders: Array<string>}) => void} callback 
  */
 function list_dir(dir, callback) {
     let items = {
         folders: [],
         files: []
     };
-    let depth = 0;
-    function enter() {
-        depth += 1;
-    }
-    function exit() {
-        depth -= 1;
-        if (depth == 0) {
-            callback(items);
-        }
-    }
+    let sync = async.sync((err) => {
+        callback(err, items);
+    });
 
     fs.readdir(dir, (err, files) => {
         if (err) {
-            console.error(err.message);
+            sync.error(err);
             return;
         }
 
         for (let file of files) {
-            enter();
+            sync.enter();
             fs.stat(path.resolve(dir, file), (err, stats) => {
                 if (err) {
-                    console.error(err.message);
+                    sync.error(err);
                     return;
                 }
                 
@@ -46,7 +40,7 @@ function list_dir(dir, callback) {
                 } else if (stats.isFile()) {
                     items.files.push(file);
                 }
-                exit();
+                sync.exit();
             });
         }
     });
@@ -55,12 +49,12 @@ function list_dir(dir, callback) {
 /**
  * 
  * @param {string} file 
- * @param {(metadata: object, content: string) => void} callback 
+ * @param {(error, metadata: object, content: string) => void} callback 
  */
 function read_markdown(file, callback, baseUrl) {
     fs.readFile(file, (err, data) => {
         if (err) {
-            console.error(err.message);
+            callback(err);
             return;
         }
         let markdown = parseMD(data.toString());
@@ -69,105 +63,158 @@ function read_markdown(file, callback, baseUrl) {
             gfm: true
         }, (err, result) => {
             if (err) {
-                console.error(err.message);
+                callback(err);
                 return;
             }
-            callback(markdown.metadata, result);
+            callback(null, markdown.metadata, result);
         });
     });
 }
 
 function list_date_files(folder, callback) {
     let data = {};
+    let sync = async.sync((err) => {
+        callback(err, data);
+    });
 
-    let depth = 0;
-    function start() {
-        depth += 1;
-    }
-    function end() {
-        depth -= 1;
-        if (depth == 0) {
-            callback(data);
+    sync.enter();
+    list_dir(folder, (err, years) => {
+        if (err) {
+            sync.error(err);
+            return;
         }
-    }
-
-    start();
-    list_dir(folder, (years) => {
         for (let year of years.folders) {
-            start();
-            list_dir(path.resolve(folder, year), (months) => {
+            sync.enter();
+            list_dir(path.resolve(folder, year), (err, months) => {
+                if (err) {
+                    sync.error(err);
+                    return;
+                }
                 for (let month of months.folders) {
-                    start();
-                    list_dir(path.resolve(folder, year, month), (days) => {
+                    sync.enter();
+                    list_dir(path.resolve(folder, year, month), (err, days) => {
+                        if (err) {
+                            sync.error(err);
+                            return;
+                        }
                         for (let day of days.folders) {
-                            start();
-                            list_dir(path.resolve(folder, year, month, day), (files) => {
+                            sync.enter();
+                            list_dir(path.resolve(folder, year, month, day), (err, files) => {
+                                if (err) {
+                                    sync.error(err);
+                                    return;
+                                }
                                 let date = `${year}/${month}/${day}`;
                                 data[date] = files.files;
-                                end();
+                                sync.exit();
                             });
                         }
-                        end();
+                        sync.exit();
                     });
                 }
-                end();
+                sync.exit();
             });
         }
-        end();
+        sync.exit();
     });
 }
 
-function load_updates(folder, callback) {
-    list_date_files(path.resolve(folder, 'updates'), (files) => {
-        console.log(files);
+function load_updates(settings, callback) {
+    fs.access(path.resolve(settings.path, "updates"), (err) => {
+        if (err) {
+            callback(null);
+            return;
+        }
+        let sync = async.sync((err) => {
+            callback(err);
+        });
+        settings.updates = []
+        list_date_files(path.resolve(settings.path, 'updates'), (err, updates) => {
+            if (err) {
+                sync.error(err);
+                return;
+            }
+            for (let [date, files] of Object.entries(updates)) {
+                for (let file of files) {
+                    let update = {
+                        dest: path.resolve(settings.dest, 'updates', date, file.replace(/\..*/, '')),
+                        date: date,
+                        path: path.resolve(settings.path, 'updates', date, file)
+                    };
+                    settings.updates.push(update);
+
+                    sync.enter();
+                    read_markdown(update.path, (err, metadata, content) => {
+                        if (err) {
+                            sync.error(err);
+                            return;
+                        }
+                        for (let [k, v] of Object.entries(metadata)) {
+                            update[k] = v
+                        }
+                        update.content = content;
+                        sync.exit();
+                    });
+                }
+            }
+        });
     });
 }
 
 
 function load_sites(callback) {
     let projects = {};
-    let procs = 0;
-
-    function start() {
-        procs += 1;
-    }
-    function complete() {
-        procs -= 1;
-        if (procs == 0) {
-            callback(projects);
+    let sync = async.sync((err) => {
+        callback(err, projects);
+    })
+    list_dir(data, (err, items) => {
+        if (err) {
+            sync.error(err);
         }
-    }
-
-    list_dir(data, (items) => {
         for (let name of items.folders) {
             let folder = path.resolve(data, name);
             projects[name] = {
+                path: folder,
                 dest: `/projects/${name}/`
             };
 
-            start();
-            read_markdown(path.resolve(folder, "project.md"), (metadata, content) => {
+            sync.enter();
+            read_markdown(path.resolve(folder, "project.md"), (err, metadata, content) => {
+                if (err) {
+                    sync.error(err);
+                    return;
+                }
                 for ([k, v] of Object.entries(metadata)) {
                     projects[name][k] = v;
                 }
                 projects[name].project = content;
-                complete();
+                sync.exit();
             }, projects[name].dest);
-            start();
-            read_markdown(path.resolve(folder, "summary.md"), (metadata, content) => {
-                projects[name].summary = content;
-                complete();
-            }, '/');
-            fs.access(path.resolve(folder, "updates"), (err) => {
+            sync.enter();
+            read_markdown(path.resolve(folder, "summary.md"), (err, metadata, content) => {
                 if (err) {
+                    sync.error(err);
                     return;
                 }
-                load_updates(folder);
-            })
+                projects[name].summary = content;
+                sync.exit();
+            }, '/');
+            sync.enter();
+            load_updates(projects[name], (err) => {
+                if (err) {
+                    sync.error(err);
+                    return;
+                }
+                sync.exit();
+            });
         }
     });
 }
 
-load_sites((projects) => {
-    console.log(projects);
+load_sites((err, projects) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    console.log(JSON.stringify(projects, undefined, 2));
 });
