@@ -1,0 +1,33 @@
+{%- extends "base.html" -%}
+
+{%- block body -%}
+  <ul class="path">
+    <li><a href="/">Projects</a></li>
+    <li><a href="{{ dest }}">{{ name }}</a></li>
+    <li>Updates</li>
+  </ul>
+
+  <div class="d-flex align-items-center">
+      <h2>{{ name }} - All Updates</h2>
+      <h3 class="ms-auto" title="RSS Feed"><a href="feed.xml" target="_blank"><i class="fas fa-rss"></i></a></h3>
+  </div>
+  <hr>
+  {% if years -%}
+    {%- for year in years -%}
+      <h3>{{ year.name }}</h3>
+      <div class="ms-5">
+        {% for month in year.months -%}
+          <h4>{{ month.name }}</h4>
+          <ul class="ms-5">
+            {% for update in month.updates -%}
+              <li><a href="{{ update.dest }}">{{ update.date }} - {{ update.name }}</a></li>
+            {%- endfor %}
+          </ul>
+        {%- endfor %}
+      </div>
+    {%- endfor -%}
+  {%- else -%}
+    <p>There are no updates :/</p>
+  {%- endif %}
+</div>
+{%- endblock body -%}

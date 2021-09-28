@@ -5,13 +5,19 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
+    "chokidar": "^3.5.2",
+    "marked": "^3.0.4",
+    "nunjucks": "^3.2.3",
+    "parse-md": "^2.0.4",
     "sass": "^1.42.0",
     "webpack": "^5.54.0",
     "webpack-cli": "^4.8.0"
   },
   "scripts": {
     "sass": "node node_modules/sass/sass.js -I scss scss/style.scss:css/styles.css --style compressed",
-    "sasswatch": "node node_modules/sass/sass.js -I scss scss/style.scss:css/styles.css -w --style compressed"
+    "sasswatch": "node node_modules/sass/sass.js -I scss scss/style.scss:css/styles.css -w --style compressed",
+    "build": "webpack",
+    "buildwatch": "webpack --watch"
   },
   "author": "Benjamin Jacobs",
   "license": "ISC"

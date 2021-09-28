@@ -1,0 +1,45 @@
+{%- import "macros.jinja2" as macros -%}
+{%- macro active(dest, data) -%}
+  {%- if dest == path -%}
+    {{ data }}
+  {%- endif -%}
+{%- endmacro -%}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{{ title }}</title>
+
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <h4><a {{ active('/', 'class="active"') }} href="{{ macros.href('/', path) }}">Benjaminja</a></h4>
+      <ul class="nav-items">
+        <li class="dropdown">
+          <a class="dropdown-toggle {{ active('/', 'active') }}" href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
+          <ul class="dropdown-menu">
+            <li><a {{ active('/projects/blueweather/', 'class="active"') }} href="{{ macros.href('/projects/blueweather/', path) }}">BlueWeather</a></li>
+            <li><a {{ active('/projects/gemcaps/', 'class="active"') }} href="{{ macros.href('/projects/gemcaps/', path) }}">GemCaps</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div class="body">
+      <div class="container-sm mt-5">
+        {% block body %}
+        {% endblock body %}
+      </div>
+    </div>
+    <div class="navbar">
+      <ul class="nav-items ms-auto">
+        <li><a href="https://github.com/ttocsneb/website/"><i class="fab fa-github.me-2"></i>Source</a></li>
+      </ul>
+    </div>
+
+    <script src="/js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+{%- macro href(dest, curr_page) -%}
+    {%- if dest == curr_page -%}
+        #
+    {%- else -%}
+        {{ dest }}
+    {%- endif -%}
+{%- endmacro -%}

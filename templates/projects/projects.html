@@ -1,0 +1,10 @@
+{%- extends "base.html" -%}
+
+{%- block body -%}
+  <h1>Projects</h1>
+  <hr>
+  {%- for project in projects -%}
+    {{ project }}
+    <hr>
+  {%- endfor -%}
+{%- endblock body -%}

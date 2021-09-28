@@ -1,0 +1,34 @@
+{%- extend "base.html" -%}
+
+{%- block body -%}
+  <ul class="path">
+    <li><a href="/">Projects</a></li>
+    <li>{{ name }}</li>
+  </ul>
+  <div class="float-overflow">
+    {%- if socials -%}
+      <div class="d-flex align-items-center">
+        <h3 class="me-auto"><a href="{{ dest }}">{{ name }}</a></h3>
+        {% for social in socials -%}
+          <h3 class="me-4"><a href="{{ social.dest }}" target="_blank"><i class="{{ social.icon }}" title="{{ social.name }}"></i></a></h3>
+        {%- endfor %}
+      </div>
+    {%- else -%}
+      <h3 class="me-auto"><a href="{{ dest }}">{{ name }}</a></h3>
+    {%- endif -%}
+
+    {{ body }}
+    <hr>
+    <h3>Updates</h3>
+    {%- if updates -%}
+      <ul>
+        {% for update in updates -%}
+          <li><a href="{{ update.dest }}">{{ update.date }} - {{ update.title }}</a></li>
+        {%- endfor %}
+      </ul>
+    {%- endif -%}
+    <p>
+      <a href="updates/">See all updates</a>
+    </p>
+  </div>
+{%- endblock body -%}

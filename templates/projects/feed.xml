@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+  <title>Updates for {{ name }}</title>
+  <description>{{ desc }}</description>
+  <link>{{ dest }}</link>
+  <lastBuildDate>{{ today }}</lastBuildDate>
+  <pubDate>{{ latest_update.date }}</pubDate>
+  <ttl>1800</ttl>
+
+  <item>
+    {% for update in updates -%}
+      <title>{{ update.name }}</title>
+      <description>{{ update.desc }}</description>
+      <link>{{ update.dest }}</link>
+      <guid isPermaLink="false">{{ update.guid }}</guid>
+      <pubDate>{{ update.date }}</pubDate>
+    {%- endfor %}
+  </item>
+
+</channel>
+</rss>
