@@ -10,7 +10,7 @@ const data = path.resolve(__dirname, "../data");
 /**
  * 
  * @param {string} dir 
- * @param {(error, items: {files: Array<string>, folders: Array<string>}) => void} callback 
+ * @param {(error: NodeJS.ErrnoException, items: {files: Array<string>, folders: Array<string>}) => void} callback 
  */
 function list_dir(dir, callback) {
     let items = {
@@ -49,6 +49,32 @@ function list_dir(dir, callback) {
 /**
  * 
  * @param {string} file 
+ * @param {(error: NodeJS.ErrnoException, json: object) => void} callback 
+ */
+function read_json(file, callback) {
+    fs.readFile(file, (err, data) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+        let json = JSON.parse(data.toString());
+        callback(null, json);
+    });
+}
+
+/**
+ * 
+ * @param {string} file 
+ * @param {object} json 
+ * @param {(error: NodeJS.ErrnoException) => void} callback 
+ */
+function write_json(file, json, callback) {
+    fs.writeFile(file, JSON.stringify(json, null, 2), callback);
+}
+
+/**
+ * 
+ * @param {string} file 
  * @param {(error, metadata: object, content: string) => void} callback 
  */
 function read_markdown(file, callback, baseUrl) {
@@ -71,6 +97,11 @@ function read_markdown(file, callback, baseUrl) {
     });
 }
 
+/**
+ * 
+ * @param {string} folder 
+ * @param {(error: NodeJS.ErrnoException, data: object) => void} callback 
+ */
 function list_date_files(folder, callback) {
     let data = {};
     let sync = async.sync((err) => {
@@ -119,6 +150,11 @@ function list_date_files(folder, callback) {
     });
 }
 
+/**
+ * 
+ * @param {object} settings 
+ * @param {(error) => void} callback 
+ */
 function load_updates(settings, callback) {
     fs.access(path.resolve(settings.path, "updates"), (err) => {
         if (err) {
@@ -139,7 +175,8 @@ function load_updates(settings, callback) {
                     let update = {
                         dest: path.resolve(settings.dest, 'updates', date, file.replace(/\..*/, '')),
                         date: date,
-                        path: path.resolve(settings.path, 'updates', date, file)
+                        path: path.resolve(settings.path, 'updates', date, file),
+                        content: null
                     };
                     settings.updates.push(update);
 
@@ -162,11 +199,15 @@ function load_updates(settings, callback) {
 }
 
 
+/**
+ * 
+ * @param {(error, projects: object) => void} callback 
+ */
 function load_sites(callback) {
     let projects = {};
     let sync = async.sync((err) => {
         callback(err, projects);
-    })
+    });
     list_dir(data, (err, items) => {
         if (err) {
             sync.error(err);
@@ -200,6 +241,19 @@ function load_sites(callback) {
                 sync.exit();
             }, '/');
             sync.enter();
+            read_json(path.resolve(folder, "cache.json"), (err, json) => {
+                if (err) {
+                    if (err.code != 'ENOENT') {
+                        sync.error(err);
+                    } else {
+                        sync.exit();
+                    }
+                    return;
+                }
+                projects[name].cache = json;
+                sync.exit();
+            });
+            sync.enter();
             load_updates(projects[name], (err) => {
                 if (err) {
                     sync.error(err);
@@ -211,10 +265,7 @@ function load_sites(callback) {
     });
 }
 
-load_sites((err, projects) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    console.log(JSON.stringify(projects, undefined, 2));
-});
+
+module.exports = {
+    load_sites
+};
