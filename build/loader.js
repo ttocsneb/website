@@ -3,12 +3,12 @@ const path = require('path');
 const parseMD = require('parse-md').default;
 const marked = require('marked');
 const async = require('./async');
+const yaml = require('js-yaml');
 
 const data = path.resolve(__dirname, "../data");
 
-
 /**
- * 
+ * List directories and files in a directory
  * @param {string} dir 
  * @param {(error: NodeJS.ErrnoException, items: {files: Array<string>, folders: Array<string>}) => void} callback 
  */
@@ -47,53 +47,39 @@ function list_dir(dir, callback) {
 }
 
 /**
+ * Read markdown from a file
  * 
  * @param {string} file 
- * @param {(error: NodeJS.ErrnoException, json: object) => void} callback 
+ * @param {(error: NodeJS.ErrnoException, metadata: object, content: string) => void} callback 
  */
-function read_json(file, callback) {
-    fs.readFile(file, (err, data) => {
-        if (err) {
-            callback(err);
-            return;
-        }
-        let json = JSON.parse(data.toString());
-        callback(null, json);
-    });
-}
-
-/**
- * 
- * @param {string} file 
- * @param {object} json 
- * @param {(error: NodeJS.ErrnoException) => void} callback 
- */
-function write_json(file, json, callback) {
-    fs.writeFile(file, JSON.stringify(json, null, 2), callback);
-}
-
-/**
- * 
- * @param {string} file 
- * @param {(error, metadata: object, content: string) => void} callback 
- */
-function read_markdown(file, callback, baseUrl) {
+function read_markdown(file, callback) {
     fs.readFile(file, (err, data) => {
         if (err) {
             callback(err);
             return;
         }
         let markdown = parseMD(data.toString());
-        marked.parse(markdown.content, {
-            baseUrl,
-            gfm: true
-        }, (err, result) => {
-            if (err) {
-                callback(err);
-                return;
-            }
-            callback(null, markdown.metadata, result);
-        });
+        callback(null, markdown.metadata, markdown.content);
+    });
+}
+
+/**
+ * Write markdown to a file
+ * 
+ * @param {string} file 
+ * @param {string} content 
+ * @param {object} metadata 
+ * @param {(err: NodeJS.ErrnoException) => void} callback 
+ */
+function write_markdown(file, content, metadata=null, callback) {
+    let output = '';
+    if (metadata && Object.keys(metadata).length > 0) {
+        let header = yaml.dump(metadata)
+        output += `---\n${header}---\n`;
+    }
+    output += content;
+    fs.writeFile(file, output, (err) => {
+        callback(err);
     });
 }
 
@@ -176,7 +162,8 @@ function load_updates(settings, callback) {
                         dest: path.resolve(settings.dest, 'updates', date, file.replace(/\..*/, '')),
                         date: date,
                         path: path.resolve(settings.path, 'updates', date, file),
-                        content: null
+                        content: null,
+                        metadata: null
                     };
                     settings.updates.push(update);
 
@@ -186,9 +173,7 @@ function load_updates(settings, callback) {
                             sync.error(err);
                             return;
                         }
-                        for (let [k, v] of Object.entries(metadata)) {
-                            update[k] = v
-                        }
+                        update.metadata = metadata;
                         update.content = content;
                         sync.exit();
                     });
@@ -200,10 +185,11 @@ function load_updates(settings, callback) {
 
 
 /**
+ * Load the projects from disk.
  * 
  * @param {(error, projects: object) => void} callback 
  */
-function load_sites(callback) {
+function load_projects(callback) {
     let projects = {};
     let sync = async.sync((err) => {
         callback(err, projects);
@@ -216,8 +202,10 @@ function load_sites(callback) {
             let folder = path.resolve(data, name);
             projects[name] = {
                 path: folder,
-                dest: `/projects/${name}/`
+                dest: `/projects/${name}/`,
+                updates: []
             };
+            let project = projects[name];
 
             sync.enter();
             read_markdown(path.resolve(folder, "project.md"), (err, metadata, content) => {
@@ -225,10 +213,10 @@ function load_sites(callback) {
                     sync.error(err);
                     return;
                 }
-                for ([k, v] of Object.entries(metadata)) {
-                    projects[name][k] = v;
-                }
-                projects[name].project = content;
+                project.project = {
+                    content,
+                    metadata
+                };
                 sync.exit();
             }, projects[name].dest);
             sync.enter();
@@ -237,24 +225,14 @@ function load_sites(callback) {
                     sync.error(err);
                     return;
                 }
-                projects[name].summary = content;
-                sync.exit();
-            }, '/');
-            sync.enter();
-            read_json(path.resolve(folder, "cache.json"), (err, json) => {
-                if (err) {
-                    if (err.code != 'ENOENT') {
-                        sync.error(err);
-                    } else {
-                        sync.exit();
-                    }
-                    return;
-                }
-                projects[name].cache = json;
+                project.summary = {
+                    metadata,
+                    content
+                };
                 sync.exit();
             });
             sync.enter();
-            load_updates(projects[name], (err) => {
+            load_updates(project, (err) => {
                 if (err) {
                     sync.error(err);
                     return;
@@ -265,7 +243,50 @@ function load_sites(callback) {
     });
 }
 
+/**
+ * 
+ * @param {object} project 
+ * @param {(err) => void} callback 
+ */
+function save_updates(project, callback) {
+    let sync = async.sync(callback);
+    let folder = project.path;
+    sync.enter();
+    write_markdown(path.resolve(folder, "project.md"), project.project.content, project.project.metadata, sync.exit);
+    sync.enter();
+    write_markdown(path.resolve(folder, "summary.md"), project.summary.content, project.summary.metadata, sync.exit);
+    if (!project.updates) {
+        return;
+    }
+    for (let update of project.updates) {
+        sync.enter();
+        write_markdown(update.path, update.content, update.metadata, sync.exit);
+    }
+}
+
+/**
+ * Save the projects cache
+ * 
+ * @param {object} projects 
+ * @param {(err) => void} callback 
+ */
+function save_projects(projects, callback) {
+    let sync = async.sync((err) => {
+        callback(err);
+    });
+    for (let [name, project] of Object.entries(projects)) {
+        sync.enter();
+        save_updates(project, (err) => {
+            if (err) {
+                sync.error(err);
+            }
+            sync.exit();
+        })
+    }
+}
+
 
 module.exports = {
-    load_sites
+    load_projects,
+    save_projects
 };

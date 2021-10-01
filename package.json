@@ -6,10 +6,12 @@
   "dependencies": {},
   "devDependencies": {
     "chokidar": "^3.5.2",
+    "js-yaml": "^4.1.0",
     "marked": "^3.0.4",
     "nunjucks": "^3.2.3",
     "parse-md": "^2.0.4",
     "sass": "^1.42.0",
+    "uuid": "^8.3.2",
     "webpack": "^5.54.0",
     "webpack-cli": "^4.8.0"
   },

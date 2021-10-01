@@ -1,9 +1,9 @@
 ---
 name: BlueWeather
 socials:
-- name: Github
-  dest: https://github.com/ttocsneb/blueweather
-  icon: fab fa-github
+  - name: Github
+    dest: https://github.com/ttocsneb/blueweather
+    icon: fab fa-github
 ---
 
 ![BlueWeather Chip](/images/chip_top.jpg)

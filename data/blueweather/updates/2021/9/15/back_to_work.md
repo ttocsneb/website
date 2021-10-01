@@ -1,5 +1,6 @@
 ---
 title: Getting Back to Work on the Project
+uuid: 56eebca1-4435-4703-bbba-90a9592c6003
 ---
 
 So I haven't been working on BlueWeather for a little while now. I'm starting

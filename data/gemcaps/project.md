@@ -1,9 +1,9 @@
 ---
 name: GemCaps
 socials:
-- name: Github
-  dest: https://github.com/ttocsneb/gemcaps
-  icon: fab fa-github
+  - name: Github
+    dest: https://github.com/ttocsneb/gemcaps
+    icon: fab fa-github
 ---
 
 Gemcaps is an optimized server for the [gemini protocol][gemini]. I hope to
