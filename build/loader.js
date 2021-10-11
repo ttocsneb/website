@@ -1,290 +1,100 @@
-const fs = require('fs');
 const path = require('path');
-const parseMD = require('parse-md').default;
-const marked = require('marked');
-const async = require('./async');
-const yaml = require('js-yaml');
+const utils = require('./utils');
 
 const data = path.resolve(__dirname, "../data");
 
-/**
- * List directories and files in a directory
- * @param {string} dir 
- * @param {(error: NodeJS.ErrnoException, items: {files: Array<string>, folders: Array<string>}) => void} callback 
- */
-function list_dir(dir, callback) {
-    let items = {
-        folders: [],
-        files: []
-    };
-    let sync = async.sync((err) => {
-        callback(err, items);
-    });
-
-    fs.readdir(dir, (err, files) => {
-        if (err) {
-            sync.error(err);
-            return;
-        }
-
-        for (let file of files) {
-            sync.enter();
-            fs.stat(path.resolve(dir, file), (err, stats) => {
-                if (err) {
-                    sync.error(err);
-                    return;
-                }
-                
-                if (stats.isDirectory()) {
-                    items.folders.push(file);
-                } else if (stats.isFile()) {
-                    items.files.push(file);
-                }
-                sync.exit();
-            });
-        }
-    });
-}
-
-/**
- * Read markdown from a file
- * 
- * @param {string} file 
- * @param {(error: NodeJS.ErrnoException, metadata: object, content: string) => void} callback 
- */
-function read_markdown(file, callback) {
-    fs.readFile(file, (err, data) => {
-        if (err) {
-            callback(err);
-            return;
-        }
-        let markdown = parseMD(data.toString());
-        callback(null, markdown.metadata, markdown.content);
-    });
-}
-
-/**
- * Write markdown to a file
- * 
- * @param {string} file 
- * @param {string} content 
- * @param {object} metadata 
- * @param {(err: NodeJS.ErrnoException) => void} callback 
- */
-function write_markdown(file, content, metadata=null, callback) {
-    let output = '';
-    if (metadata && Object.keys(metadata).length > 0) {
-        let header = yaml.dump(metadata)
-        output += `---\n${header}---\n`;
-    }
-    output += content;
-    fs.writeFile(file, output, (err) => {
-        callback(err);
-    });
-}
 
 /**
  * 
  * @param {string} folder 
- * @param {(error: NodeJS.ErrnoException, data: object) => void} callback 
+ * @returns {Promise<{[key: string]: Array<string>}>} object of files in a date tree file structure
  */
-function list_date_files(folder, callback) {
-    let data = {};
-    let sync = async.sync((err) => {
-        callback(err, data);
-    });
-
-    sync.enter();
-    list_dir(folder, (err, years) => {
-        if (err) {
-            sync.error(err);
-            return;
-        }
-        for (let year of years.folders) {
-            sync.enter();
-            list_dir(path.resolve(folder, year), (err, months) => {
-                if (err) {
-                    sync.error(err);
-                    return;
-                }
-                for (let month of months.folders) {
-                    sync.enter();
-                    list_dir(path.resolve(folder, year, month), (err, days) => {
-                        if (err) {
-                            sync.error(err);
-                            return;
-                        }
-                        for (let day of days.folders) {
-                            sync.enter();
-                            list_dir(path.resolve(folder, year, month, day), (err, files) => {
-                                if (err) {
-                                    sync.error(err);
-                                    return;
-                                }
-                                let date = `${year}/${month}/${day}`;
-                                data[date] = files.files;
-                                sync.exit();
-                            });
-                        }
-                        sync.exit();
-                    });
-                }
-                sync.exit();
-            });
-        }
-        sync.exit();
-    });
-}
-
-/**
- * 
- * @param {object} settings 
- * @param {(error) => void} callback 
- */
-function load_updates(settings, callback) {
-    fs.access(path.resolve(settings.path, "updates"), (err) => {
-        if (err) {
-            callback(null);
-            return;
-        }
-        let sync = async.sync((err) => {
-            callback(err);
-        });
-        settings.updates = []
-        list_date_files(path.resolve(settings.path, 'updates'), (err, updates) => {
-            if (err) {
-                sync.error(err);
-                return;
+async function list_date_files(folder) {
+    let result = {};
+    let years = await utils.list_dir(folder);
+    for (let year of years.folders) {
+        let months = await utils.list_dir(path.resolve(folder, year));
+        for (let month of months.folders) {
+            let days = await utils.list_dir(path.resolve(folder, year, month));
+            for (let day of days.folders) {
+                let files = await utils.list_dir(path.resolve(folder, year, month, day));
+                let date = `${year}/${month}/${day}`;
+                result[date] = files.files;
             }
-            for (let [date, files] of Object.entries(updates)) {
-                for (let file of files) {
-                    let update = {
-                        dest: path.resolve(settings.dest, 'updates', date, file.replace(/\..*/, '')),
-                        date: date,
-                        path: path.resolve(settings.path, 'updates', date, file),
-                        content: null,
-                        metadata: null
-                    };
-                    settings.updates.push(update);
-
-                    sync.enter();
-                    read_markdown(update.path, (err, metadata, content) => {
-                        if (err) {
-                            sync.error(err);
-                            return;
-                        }
-                        update.metadata = metadata;
-                        update.content = content;
-                        sync.exit();
-                    });
-                }
-            }
-        });
-    });
-}
-
-
-/**
- * Load the projects from disk.
- * 
- * @param {(error, projects: object) => void} callback 
- */
-function load_projects(callback) {
-    let projects = {};
-    let sync = async.sync((err) => {
-        callback(err, projects);
-    });
-    list_dir(data, (err, items) => {
-        if (err) {
-            sync.error(err);
         }
-        for (let name of items.folders) {
-            let folder = path.resolve(data, name);
-            projects[name] = {
-                path: folder,
-                dest: `/projects/${name}/`,
-                updates: []
-            };
-            let project = projects[name];
-
-            sync.enter();
-            read_markdown(path.resolve(folder, "project.md"), (err, metadata, content) => {
-                if (err) {
-                    sync.error(err);
-                    return;
-                }
-                project.project = {
-                    content,
-                    metadata
-                };
-                sync.exit();
-            }, projects[name].dest);
-            sync.enter();
-            read_markdown(path.resolve(folder, "summary.md"), (err, metadata, content) => {
-                if (err) {
-                    sync.error(err);
-                    return;
-                }
-                project.summary = {
-                    metadata,
-                    content
-                };
-                sync.exit();
-            });
-            sync.enter();
-            load_updates(project, (err) => {
-                if (err) {
-                    sync.error(err);
-                    return;
-                }
-                sync.exit();
-            });
-        }
-    });
+    }
+    return result;
 }
 
 /**
  * 
- * @param {object} project 
- * @param {(err) => void} callback 
+ * @param {{path: string, dest: string, updates: Array<object>}} settings 
  */
-function save_updates(project, callback) {
-    let sync = async.sync(callback);
-    let folder = project.path;
-    sync.enter();
-    write_markdown(path.resolve(folder, "project.md"), project.project.content, project.project.metadata, sync.exit);
-    sync.enter();
-    write_markdown(path.resolve(folder, "summary.md"), project.summary.content, project.summary.metadata, sync.exit);
-    if (!project.updates) {
+async function load_updates(settings) {
+    let updates_exist = await utils.exists(path.resolve(settings.path, "updates"));
+    if (!updates_exist) {
         return;
     }
-    for (let update of project.updates) {
-        sync.enter();
-        write_markdown(update.path, update.content, update.metadata, sync.exit);
+    let updates = await list_date_files(path.resolve(settings.path, "updates"));
+    settings.updates = [];
+    for (let [date, files] of Object.entries(updates)) {
+        for (let file of files) {
+            let update = {
+                dest: path.resolve(settings.dest, 'updates', date, file.replace(/\..*/, '')),
+                date,
+                path: path.resolve(settings.path, 'updates', date, file),
+                content: null,
+                metadata: null
+            };
+            settings.updates.push(update);
+
+            let markdown = await utils.read_markdown(update.path);
+            update.metadata = markdown.metadata;
+            update.content = markdown.content;
+        }
     }
 }
 
 /**
- * Save the projects cache
+ * Load the projects from disk
  * 
- * @param {object} projects 
- * @param {(err) => void} callback 
+ * @returns {Promise<object>} projects
  */
-function save_projects(projects, callback) {
-    let sync = async.sync((err) => {
-        callback(err);
-    });
-    for (let [name, project] of Object.entries(projects)) {
-        sync.enter();
-        save_updates(project, (err) => {
-            if (err) {
-                sync.error(err);
-            }
-            sync.exit();
-        })
+async function load_projects() {
+    let projects = {};
+    let items = await utils.list_dir(data);
+    for (let name of items.folders) {
+        let folder = path.resolve(data, name);
+        projects[name] = {
+            path: folder,
+            dest: `/projects/${name}/`,
+            updates: []
+        };
+        let project = projects[name];
+        project.project = await utils.read_markdown(path.resolve(folder, 'project.md'));
+        project.summary = await utils.read_markdown(path.resolve(folder, 'summary.md'));
+        await load_updates(project);
     }
+    return projects;
 }
 
+/**
+ * Save the projects
+ * 
+ * @param {object} projects 
+ */
+async function save_projects(projects) {
+    for (let project of Object.values(projects)) {
+        await utils.write_markdown(path.resolve(project.path, 'project.md'), project.project.content, project.project.metadata);
+        await utils.write_markdown(path.resolve(project.path, 'summary.md'), project.summary.content, project.summary.metadata);
+        if (!project.updates) {
+            return;
+        }
+        for (let update of project.updates) {
+            await utils.write_markdown(update.path, update.content, update.metadata);
+        }
+    }
+}
 
 module.exports = {
     load_projects,

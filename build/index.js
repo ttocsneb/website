@@ -1,18 +1,17 @@
 const loader = require("./loader");
 const preprocessor = require("./preprocessor");
 
-loader.load_projects((err, projects) => {
-    if (err) {
+async function main() {
+    try {
+        let projects = await loader.load_projects();
+        if (preprocessor.preprocess(projects)) {
+            console.log("Saving data");
+            await loader.save_projects(projects);
+        }
+        console.log(JSON.stringify(projects, undefined, 2));
+    } catch (err) {
         console.error(err);
-        return;
     }
-    if (preprocessor.preprocess(projects)) {
-        loader.save_projects(projects, (err) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-        });
-    }
-    console.info(JSON.stringify(projects, 0, 2));
-});
+}
+
+main();
