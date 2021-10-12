@@ -1,5 +1,6 @@
 const loader = require("./loader");
 const preprocessor = require("./preprocessor");
+const renderer = require('./renderer');
 
 async function main() {
     try {
@@ -8,7 +9,9 @@ async function main() {
             console.log("Saving data");
             await loader.save_projects(projects);
         }
-        console.log(JSON.stringify(projects, undefined, 2));
+
+        console.log("Rendering projects");
+        await renderer.renderProjects(projects);
     } catch (err) {
         console.error(err);
     }

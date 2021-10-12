@@ -68,7 +68,9 @@ async function load_projects() {
         projects[name] = {
             path: folder,
             dest: `/projects/${name}/`,
-            updates: []
+            updates_dest: `/projects/${name}/updates/`,
+            updates: [],
+            name
         };
         let project = projects[name];
         project.project = await utils.read_markdown(path.resolve(folder, 'project.md'));

@@ -98,22 +98,89 @@ function exists(file) {
 }
 
 /**
- * Read markdown from a file
+ * Get the stats of a file
  * 
  * @param {string} file 
- * @return {Promise<{metadata: object, content: string}>} promise
+ * @returns {Promise<fs.Stats>} stats
  */
-function read_markdown(file) {
+function stat(file) {
+    return new Promise((resolve, reject) => {
+        fs.stat(file, (err, stats) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(stats);
+        });
+    });
+}
+
+/**
+ * Read a file from disk
+ * 
+ * @param {string} file 
+ * @returns {Promise<string>} read file
+ */
+function read_file(file) {
     return new Promise((resolve, reject) => {
         fs.readFile(file, (err, data) => {
             if (err) {
                 reject(err);
                 return;
             }
-            let markdown = parseMD(data.toString());
-            resolve(markdown);
+            resolve(String(data));
+        })
+    });
+}
+
+/**
+ * Write a file to disk
+ * 
+ * @param {string} file 
+ * @param {string} content 
+ * @returns {Promise<void>}
+ */
+function write_file(file, content) {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(file, content, (err) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve();
         });
     });
+}
+
+/**
+ * make directory
+ * 
+ * @param {string} path 
+ * @returns {Promise<void>}
+ */
+function mkdir(path) {
+    return new Promise((resolve, reject) => {
+        fs.mkdir(path, {
+            recursive: true
+        }, (err) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve();
+        });
+    });
+}
+
+/**
+ * Read markdown from a file
+ * 
+ * @param {string} file 
+ * @return {Promise<{metadata: object, content: string}>} promise
+ */
+async function read_markdown(file) {
+    let content = await read_file(file);
+    return parseMD(content);
 }
 
 /**
@@ -124,22 +191,14 @@ function read_markdown(file) {
  * @param {object?} metadata 
  * @return {Promise<null>} promise
  */
-function write_markdown(file, content, metadata=null) {
-    return new Promise((resolve, reject) => {
-        let output = '';
-        if (metadata && Object.keys(metadata).length > 0) {
-            let header = yaml.dump(metadata)
-            output += `---\n${header}---\n`;
-        }
-        output += content;
-        fs.writeFile(file, output, (err) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve();
-        });
-    });
+async function write_markdown(file, content, metadata=null) {
+    let output = '';
+    if (metadata && Object.keys(metadata).length > 0) {
+        let header = yaml.dump(metadata)
+        output += `---\n${header}---\n`;
+    }
+    output += content;
+    await write_file(file, output);
 }
 
 
@@ -147,6 +206,10 @@ module.exports = {
     synchronize,
     list_dir,
     exists,
+    stat,
+    mkdir,
+    write_file,
+    read_file,
     write_markdown,
     read_markdown
 }
