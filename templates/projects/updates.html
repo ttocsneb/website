@@ -3,12 +3,12 @@
 {%- block body -%}
   <ul class="path">
     <li><a href="/">Projects</a></li>
-    <li><a href="{{ dest }}">{{ name }}</a></li>
+    <li><a href="{{ project.dest }}">{{ project.name }}</a></li>
     <li>Updates</li>
   </ul>
 
   <div class="d-flex align-items-center">
-      <h2>{{ name }} - All Updates</h2>
+      <h2>{{ project.name }} - All Updates</h2>
       <h3 class="ms-auto" title="RSS Feed"><a href="feed.xml" target="_blank"><i class="fas fa-rss"></i></a></h3>
   </div>
   <hr>

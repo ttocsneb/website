@@ -1,29 +1,29 @@
-{%- extend "base.html" -%}
+{%- extends "base.html" -%}
 
 {%- block body -%}
   <ul class="path">
     <li><a href="/">Projects</a></li>
-    <li>{{ name }}</li>
+    <li>{{ project.name }}</li>
   </ul>
   <div class="float-overflow">
-    {%- if socials -%}
+    {%- if metadata.socials -%}
       <div class="d-flex align-items-center">
-        <h3 class="me-auto"><a href="{{ dest }}">{{ name }}</a></h3>
-        {% for social in socials -%}
+        <h3 class="me-auto"><a href="{{ project.dest }}">{{ project.name }}</a></h3>
+        {% for social in metadata.socials -%}
           <h3 class="me-4"><a href="{{ social.dest }}" target="_blank"><i class="{{ social.icon }}" title="{{ social.name }}"></i></a></h3>
         {%- endfor %}
       </div>
     {%- else -%}
-      <h3 class="me-auto"><a href="{{ dest }}">{{ name }}</a></h3>
+      <h3 class="me-auto"><a href="{{ dest }}">{{ project.name }}</a></h3>
     {%- endif -%}
 
-    {{ body }}
+    {{ content | markdown }}
     <hr>
     <h3>Updates</h3>
-    {%- if updates -%}
+    {%- if project.updates -%}
       <ul>
-        {% for update in updates -%}
-          <li><a href="{{ update.dest }}">{{ update.date }} - {{ update.title }}</a></li>
+        {% for update in project.updates -%}
+          <li><a href="{{ update.dest }}">{{ update.date }} - {{ update.metadata.title }}</a></li>
         {%- endfor %}
       </ul>
     {%- endif -%}

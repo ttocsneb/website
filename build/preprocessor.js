@@ -1,6 +1,9 @@
 const uuid = require('uuid');
 const crypto = require('crypto');
 
+const utils = require('./utils');
+const dateFormat = require('./dateFormat').dateFormat;
+
 var clockseq = crypto.randomInt(0, 0x3FFF);
 
 /**
@@ -21,24 +24,27 @@ function nextClockSeq() {
  * @param {object} projects 
  * @returns {boolean} whether the projects need to be saved
  */
-function preprocess(projects) {
+async function preprocess(projects) {
     let updated = false;
     for (let project of Object.values(projects)) {
         for (let update of project.updates) {
+            if (!update.metadata.date) {
+                let stats = await utils.stat(update.path);
+                let date = stats.mtime;
+                update.metadata.date = dateFormat(date, "ddd, dd mmm yyyy HH:MM:ss o");
+                updated = true;
+            }
             if (!update.metadata.uuid) {
                 // Generate the uuid from the date of the update with some added randomness
-                let result = /(\d+)\/(\d+)\/(\d+)/.exec(update.date);
-                let date = new Date();
-                date.setFullYear(result[1], result[2], result[3]);
-
                 update.metadata.uuid = uuid.v1({
-                    msecs: date.getTime(),
+                    msecs: new Date(update.metadata.date).getTime(),
                     clockseq: nextClockSeq(),
                     nsecs: crypto.randomInt(0, 1000)
                 });
 
                 updated = true;
             }
+
         }
     }
     return updated;

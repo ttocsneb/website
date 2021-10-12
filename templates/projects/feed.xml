@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 <channel>
-  <title>Updates for {{ name }}</title>
-  <description>{{ desc }}</description>
-  <link>{{ dest }}</link>
-  <lastBuildDate>{{ today }}</lastBuildDate>
-  <pubDate>{{ latest_update.date }}</pubDate>
+  <title>Updates for {{ project.name }}</title>
+  <description>{{ project.project.metadata.rss_desc }}</description>
+  <link>{{ domain }}{{ project.updates_dest }}</link>
+  <lastBuildDate>{{ now | date }}</lastBuildDate>
+  {% if latest_update -%}
+    <pubDate>{{ latest_update.metadata.date | date }}</pubDate>
+  {%- endif %}
   <ttl>1800</ttl>
 
   <item>
-    {% for update in updates -%}
-      <title>{{ update.name }}</title>
-      <description>{{ update.desc }}</description>
-      <link>{{ update.dest }}</link>
-      <guid isPermaLink="false">{{ update.guid }}</guid>
-      <pubDate>{{ update.date }}</pubDate>
+    {% for update in project.updates -%}
+      <title>{{ update.metadata.title }}</title>
+      <description>{{ update.metadata.rss_desc }}</description>
+      <link>{{ domain }}{{ update.dest }}</link>
+      <guid isPermaLink="false">{{ update.metadata.uuid }}</guid>
+      <pubDate>{{ update.metadata.date | date }}</pubDate>
     {%- endfor %}
   </item>
 

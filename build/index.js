@@ -5,7 +5,7 @@ const renderer = require('./renderer');
 async function main() {
     try {
         let projects = await loader.load_projects();
-        if (preprocessor.preprocess(projects)) {
+        if (await preprocessor.preprocess(projects)) {
             console.log("Saving data");
             await loader.save_projects(projects);
         }
