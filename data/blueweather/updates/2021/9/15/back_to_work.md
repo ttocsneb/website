@@ -1,6 +1,8 @@
 ---
 title: Getting Back to Work on the Project
-uuid: b510e3f5-2df6-11ec-a89a-73469a97cc0d
+rss_desc: I need to get back to work on blueweather
+date: Tue, 12 Oct 2021 01:27:44 -0600
+uuid: e3fa5b5b-2b2d-11ec-83ec-0f4d80ecbfd5
 ---
 
 So I haven't been working on BlueWeather for a little while now. I'm starting

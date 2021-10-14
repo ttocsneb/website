@@ -3,7 +3,7 @@
 {%- block body -%}
   <ul class="path">
     <li><a href="/">Projects</a></li>
-    <li>{{ project.name }}</li>
+    <li>{{ project.project.metadata.name }}</li>
   </ul>
   <div class="float-overflow">
     {%- if metadata.socials -%}
@@ -17,7 +17,7 @@
       <h3 class="me-auto"><a href="{{ dest }}">{{ project.name }}</a></h3>
     {%- endif -%}
 
-    {{ content | markdown }}
+    {{ content | markdown | safe }}
     <hr>
     <h3>Updates</h3>
     {%- if project.updates -%}

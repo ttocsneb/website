@@ -1,38 +1,46 @@
-{%- import "macros.jinja2" as macros -%}
-{%- macro active(dest, data) -%}
-  {%- if dest == path -%}
-    {{ data }}
-  {%- endif -%}
-{%- endmacro -%}
-
 <!DOCTYPE html>
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>{{ title or "asdf" }}</title>
+    <title>Website - updates</title>
 
     <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body>
     <nav class="navbar">
-      <h4><a {{ active('/', 'class="active"') }} href="{{ macros.href('/', path) }}">Benjaminja</a></h4>
+      <h4><a  href="/">Benjaminja</a></h4>
       <ul class="nav-items">
         <li class="dropdown">
-          <a class="dropdown-toggle {{ active('/', 'active') }}" href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
+          <a class="dropdown-toggle " href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
           <ul class="dropdown-menu">
-            {% for name, project in projects -%}
-              <li><a {{ active(project.dest, 'class="active"') }} href="{{ macros.href(project.dest) }}">{{ project.project.metadata.name }}</a></li>
-            {%- endfor %}
+            <li><a  href="/projects/website/">Website</a></li><li><a  href="/projects/gemcaps/">GemCaps</a></li><li><a  href="/projects/blueweather/">BlueWeather</a></li>
           </ul>
         </li>
       </ul>
     </nav>
     <div class="body">
       <div class="container-sm mt-5">
-        {% block body %}
-        {% endblock body %}
+        <ul class="path">
+    <li><a href="/">Projects</a></li>
+    <li><a href="/projects/website/">Website</a></li>
+    <li>Updates</li>
+  </ul>
+
+  <div class="d-flex align-items-center">
+      <h2>website - All Updates</h2>
+      <h3 class="ms-auto" title="RSS Feed"><a href="feed.xml" target="_blank"><i class="fas fa-rss"></i></a></h3>
+  </div>
+  <hr>
+  <h3>2021</h3>
+      <div class="ms-5">
+        <h4>October</h4>
+          <ul class="ms-5">
+            <li><a href="/projects/website/updates/2021/10/13/compiler">2021/10/13 - Making a static compiler</a></li>
+          </ul>
+      </div>
+</div>
       </div>
     </div>
     <div class="navbar">

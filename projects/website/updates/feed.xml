@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+  <title>Updates for Website</title>
+  <description>My website blog about all of my projects</description>
+  <link>http://benjaminja.info/projects/website/updates/</link>
+  <lastBuildDate>Wed, 13 Oct 2021 23:29:46 -0600</lastBuildDate>
+  <pubDate>Wed, 13 Oct 2021 23:25:48 -0600</pubDate>
+  <ttl>1800</ttl>
+
+  <item>
+    <title>Making a static compiler</title>
+      <description>I&#39;ve converted from hand writing the html to using a static compiler.</description>
+      <link>http://benjaminja.info/projects/website/updates/2021/10/13/compiler</link>
+      <guid isPermaLink="false">3020d671-2caf-11ec-a532-c51ba53d9342</guid>
+      <pubDate>Wed, 13 Oct 2021 23:25:48 -0600</pubDate>
+  </item>
+
+</channel>
+</rss>

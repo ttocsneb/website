@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 <channel>
- <title>Updates for BlueWeather</title>
- <description>Updates for BlueWeather</description>
- <link>http://benjaminja.info/projects/blueweather/updates</link>
- <lastBuildDate>Sat, 25 Sep 2021 00:22:00 -0700</lastBuildDate>
- <pubDate>Wed, 15 Sep 2021 00:22:00 -0700</pubDate>
- <ttl>1800</ttl>
+  <title>Updates for BlueWeather</title>
+  <description>A Personal Weather Station Server</description>
+  <link>http://benjaminja.info/projects/blueweather/updates/</link>
+  <lastBuildDate>Wed, 13 Oct 2021 23:29:46 -0600</lastBuildDate>
+  <pubDate>Tue, 12 Oct 2021 01:27:44 -0600</pubDate>
+  <ttl>1800</ttl>
 
- <item>
-  <title>Getting Back to work on the project</title>
-  <description>Getting Back to work on the project</description>
-  <link>http://benjaminja.info/projects/blueweather/updates/21-9-15/</link>
-  <guid isPermaLink="false">fc87e5b4-cc68-4db4-b3f7-e81b5bb63655</guid>
-  <pubDate>Wed, 15 Sep 2021 00:22:00 -0700</pubDate>
- </item>
+  <item>
+    <title>Getting Back to Work on the Project</title>
+      <description>I need to get back to work on blueweather</description>
+      <link>http://benjaminja.info/projects/blueweather/updates/2021/9/15/back_to_work</link>
+      <guid isPermaLink="false">e3fa5b5b-2b2d-11ec-83ec-0f4d80ecbfd5</guid>
+      <pubDate>Tue, 12 Oct 2021 01:27:44 -0600</pubDate>
+  </item>
 
 </channel>
 </rss>

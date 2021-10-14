@@ -3,7 +3,7 @@
 {%- block body -%}
   <ul class="path">
       <li><a href="/">Projects</a></li>
-      <li><a href="{{ project.dest }}">{{ project.name }}</a></li>
+      <li><a href="{{ project.dest }}">{{ project.project.metadata.name }}</a></li>
       <li><a href="{{ project.dest }}/updates/">Updates</a></li>
       <li>{{ update.date }}</li>
   </ul>
@@ -19,6 +19,6 @@
       <h3 class="me-auto">{{ metadata.title }}</h3>
     {%- endif -%}
 
-    {{ content | markdown }}
+    {{ content | markdown | safe }}
   </div>
 {%- endblock body -%}

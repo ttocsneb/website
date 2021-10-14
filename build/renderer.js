@@ -15,6 +15,21 @@ const env = nunjucks.configure(path.resolve(__dirname, '../templates'), {
     // trimBlocks: true
 });
 
+const months = {
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December"
+};
+
 env.addFilter('date', (date, fmt) => {
     if (!fmt) {
         fmt = "ddd, dd mmm yyyy HH:MM:ss o";
@@ -74,7 +89,7 @@ async function render(name, output, context) {
  * 
  * @param {object} project 
  */
-async function renderProject(project) {
+async function renderProject(project, projects) {
     let latest_update = null;
     // Find the latest update
     if (project.updates.length > 0) {
@@ -90,6 +105,9 @@ async function renderProject(project) {
     }
 
     await render('projects/project.html', path.resolve(project.dest, 'index.html'), {
+        title: project.project.metadata.name,
+        path: project.dest,
+        projects,
         project,
         latest_update,
         metadata: project.project.metadata,
@@ -100,6 +118,9 @@ async function renderProject(project) {
 
     for (let update of project.updates) {
         await render('projects/update.html', path.resolve(update.dest, 'index.html'), {
+            title: `${project.project.metadata.name} - ${update.metadata.title}`,
+            path: update.dest,
+            projects,
             project,
             latest_update,
             update,
@@ -110,14 +131,36 @@ async function renderProject(project) {
         });
     }
 
+    let years = {};
+
+    // Organize the updates into time groups
+    for (let update of project.updates) {
+        let date = /(\d+)\/(\d+)\/(\d+)/.exec(update.date);
+        if (years[date[1]] == undefined) {
+            years[date[1]] = {};
+        }
+        let month = months[date[2]];
+        if (years[date[1]][month] == undefined) {
+            years[date[1]][month] = [];
+        }
+        years[date[1]][month].push(update);
+    }
+    console.log(JSON.stringify(years, undefined, 2));
+
     await render('projects/updates.html', path.resolve(project.updates_dest, 'index.html'), {
+        title: `${project.project.metadata.name} - updates`,
+        dest: project.updates_dest,
+        projects,
         project,
         latest_update,
         now,
         domain,
+        years,
     });
 
+
     await render('projects/feed.xml', path.resolve(project.updates_dest, 'feed.xml'), {
+        projects,
         project,
         latest_update,
         now,
@@ -132,8 +175,13 @@ async function renderProject(project) {
  */
 async function renderProjects(projects) {
     for (let project of Object.values(projects)) {
-        await renderProject(project);
+        await renderProject(project, projects);
     }
+    await render('projects/projects.html', 'index.html', {
+        title: 'Projects',
+        path: '/',
+        projects,
+    });
 }
 
 module.exports = {

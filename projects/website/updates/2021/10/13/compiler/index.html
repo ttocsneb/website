@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Website - Making a static compiler</title>
+
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <h4><a  href="/">Benjaminja</a></h4>
+      <ul class="nav-items">
+        <li class="dropdown">
+          <a class="dropdown-toggle " href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
+          <ul class="dropdown-menu">
+            <li><a  href="/projects/website/">Website</a></li><li><a  href="/projects/gemcaps/">GemCaps</a></li><li><a  href="/projects/blueweather/">BlueWeather</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div class="body">
+      <div class="container-sm mt-5">
+        <ul class="path">
+      <li><a href="/">Projects</a></li>
+      <li><a href="/projects/website/">Website</a></li>
+      <li><a href="/projects/website//updates/">Updates</a></li>
+      <li>2021/10/13</li>
+  </ul>
+  <div class="float-overflow"><h3 class="me-auto">Making a static compiler</h3><p>With this update, I have finished an early test of my static compiler. I am 
+taking markdown files for all the pages in my sites, and using [nunjucks] (A javascript version of jinja2) to generate my html.</p>
+<p>I am very happy with my loading of all the files. There still is a lot of work
+to do for the rendering side of the code--it is very spaghetti like right now.
+The renderer works for the moment, and that is what I want. I can work on 
+cleaning the code up at a later date.</p>
+<p>The way the renderer works now is as follows.</p>
+<ul>
+<li>I have a folder for each project</li>
+<li>In each folder are two files<ol>
+<li><em>project.md</em> contains the main project page and any configuration for the project</li>
+<li><em>summary.md</em> contains the summary for the front page</li>
+</ol>
+</li>
+<li>There can optionally be a folder called <em>updates</em> which contains all of the updates for the project</li>
+</ul>
+<p>So far, I think this file structure works, but is a bit annoying to get right 
+since all configurations are stored in the markdown files and each setting 
+needs to be spelled correctly. This shouldn&#39;t be too much of an issue however,
+since most configuration files require specific keys.</p>
+<p>The biggest issue will definitely be expanding towards the future. I don&#39;t 
+know if the current system of compilation will scale when my site becomes 
+bigger. Will it become difficult to add new features? Or will adding new 
+features add confusion to my future self? Only time can really tell, but I 
+have a feeling that I will need to put more time and effort into this to make
+it great.</p>
+
+  </div>
+      </div>
+    </div>
+    <div class="navbar">
+      <ul class="nav-items ms-auto">
+        <li><a href="https://github.com/ttocsneb/website/"><i class="fab fa-github me-3"></i>Source</a></li>
+      </ul>
+    </div>
+
+    <script src="/js/main.js"></script>
+  </body>
+</html>

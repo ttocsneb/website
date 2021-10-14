@@ -1,5 +1,6 @@
 ---
 name: BlueWeather
+rss_desc: A Personal Weather Station Server
 socials:
   - name: Github
     dest: https://github.com/ttocsneb/blueweather

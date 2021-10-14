@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Ben's Projects</title>
+    <title>Projects</title>
 
     <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body>
     <nav class="navbar">
-      <h4><a class="active" href="#">Benjaminja</a></h4>
+      <h4><a class=&quot;active&quot; href="#">Benjaminja</a></h4>
       <ul class="nav-items">
         <li class="dropdown">
-          <a class="active dropdown-toggle" href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
+          <a class="dropdown-toggle active" href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
           <ul class="dropdown-menu">
-            <li><a href="/projects/blueweather/">BlueWeather</a></li>
-            <li><a href="/projects/gemcaps/">GemCaps</a></li>
+            <li><a  href="/projects/website/">Website</a></li><li><a  href="/projects/gemcaps/">GemCaps</a></li><li><a  href="/projects/blueweather/">BlueWeather</a></li>
           </ul>
         </li>
       </ul>
@@ -25,50 +23,44 @@
     <div class="body">
       <div class="container-sm mt-5">
         <h1>Projects</h1>
-        <hr>
-        <div class="float-overflow">
-          <div class="d-flex align-items-center">
-            <h3><a href="/projects/blueweather/">BlueWeather</a></h3>
-            <h3 class="ms-auto"><a href="https://github.com/ttocsneb/blueweather" target="_blank"><i class="fas fa-code-branch" title="Source"></i></a></h3>
-          </div>
-          <img class="float-sm-right ms-sm-4 w-sm-6" src="/images/chip_top.jpg" />
-          <p>
-            BlueWeather is a Personal Weather Station Server that can
-            collect weather data and deliver it directly to your device.
-          </p>
-          <p>
-            It is a highly extensible application to allow for the
-            possibility of any hardware to work with BlueWeather and to allow
-            for custom data processing.
-          </p>
-        </div>
-        <p>
-          <small>1 update; <a href="/projects/blueweather/updates/21-9-15/">latest update on September 15, 2021</a></small>
-        </p>
-        <hr>
-        <div class="d-flex">
-          <h3><a href="/projects/gemcaps/">Gemcaps</a></h3>
-          <h3 class="ms-auto"><a href="https://github.com/ttocsneb/gemcaps" target="_blank"><i class="fas fa-code-branch" title="Source"></i></a></h3>
-        </div>
-        <p>
-          Gemcaps is an optimized server for the
-          <a href="https://gemini.circumlunar.space/" target="_blank">
-          gemini protocol</a>. I hope to make this software easy to configure,
-          but alsohighly configurable.
-        </p>
-        <p>
-          The gemini protocol aims to be simple and unextensible. I like that,
-          however, I want to have servers be extensible. It would be nice to
-          have a central server that acts as a proxy to other servers in the
-          same domain. To allow the central server to cache pages to allow for
-          quicker response times. Along with so much more.
-        </p>
-        <hr>
+  <hr><div class="float-overflow"><div class="d-flex align-items-center">
+          <h3 class="me-auto"><a href="/projects/website/">Website</a></h3>
+          <h3 class="me-4"><a href="https://github.com/ttocsneb/website" target="_blank"><i class="fab fa-github" title="Github"></i></a></h3>
+        </div><p>The website you are reading this project on is my website project. It is 
+designed to hold all of my projects with updates to those proejcts. I could
+have a wordpress blog--Which I have had in the past--but I&#39;ve always had 
+problems with these sites not supplying me with exactly what I am looking for.</p>
+<p>
+          <small><a href="/projects/website/updates/">1 update</a></small>
+        </p></div>
+    <hr><div class="float-overflow"><div class="d-flex align-items-center">
+          <h3 class="me-auto"><a href="/projects/gemcaps/">GemCaps</a></h3>
+          <h3 class="me-4"><a href="https://github.com/ttocsneb/gemcaps" target="_blank"><i class="fab fa-github" title="Github"></i></a></h3>
+        </div><p>Gemcaps is an optimized server for the <a href="https://gemini.circumlunar.space/">gemini protocol</a>. I hope to
+make this software easy to configure, but also highly configurable.</p>
+<p>The gemini protocol aims to be simple and unextensible. I like that, however,
+I want to have servers be extensible. I t would be nice to have a central
+server that acts as a proxy to other servers in the same domain. To allow the
+central server to cache pages to allow for quicker response times. Along with
+so much more.</p>
+</div>
+    <hr><div class="float-overflow"><div class="d-flex align-items-center">
+          <h3 class="me-auto"><a href="/projects/blueweather/">BlueWeather</a></h3>
+          <h3 class="me-4"><a href="https://github.com/ttocsneb/blueweather" target="_blank"><i class="fab fa-github" title="Github"></i></a></h3>
+        </div><p><img src="/images/chip_top.jpg" alt="BlueWeather Chip"></p>
+<p>BlueWeather is a Personal Weather Station Server that can collect weatherdata
+and deliver it directly to your device.</p>
+<p>It is a highly extensible application to allow for the possibility of any
+hardware to work with BlueWeather and to allow for custom data processing.</p>
+<p>
+          <small><a href="/projects/blueweather/updates/">1 update</a></small>
+        </p></div>
+    <hr>
       </div>
     </div>
     <div class="navbar">
       <ul class="nav-items ms-auto">
-        <li><a href="https://github.com/ttocsneb/website/"><i class="fab fa-github me-2"></i>Source</a></li>
+        <li><a href="https://github.com/ttocsneb/website/"><i class="fab fa-github me-3"></i>Source</a></li>
       </ul>
     </div>
 

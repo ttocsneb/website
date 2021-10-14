@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>GemCaps</title>
@@ -11,13 +10,12 @@
   </head>
   <body>
     <nav class="navbar">
-      <h4><a href="/">Benjaminja</a></h4>
+      <h4><a  href="/">Benjaminja</a></h4>
       <ul class="nav-items">
         <li class="dropdown">
-          <a class="dropdown-toggle" href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
+          <a class="dropdown-toggle " href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
           <ul class="dropdown-menu">
-            <li><a href="/projects/blueweather/">BlueWeather</a></li>
-            <li><a class="active" href="#">GemCaps</a></li>
+            <li><a  href="/projects/website/">Website</a></li><li><a class=&quot;active&quot; href="/projects/gemcaps/">GemCaps</a></li><li><a  href="/projects/blueweather/">BlueWeather</a></li>
           </ul>
         </li>
       </ul>
@@ -25,50 +23,39 @@
     <div class="body">
       <div class="container-sm mt-5">
         <ul class="path">
-            <li><a href="/">Projects</a></li>
-            <li>GemCaps</li>
-        </ul>
-        <div class="d-flex align-items-center">
-            <h2>GemCaps</h2>
-            <h2 class="ms-auto"><a href="https://github.com/ttocsneb/gemcaps" target="_blank"><i class="fas fa-code-branch" title="Source"></i></a></h2>
-        </div>
-        <hr>
-        <p>
-          Gemcaps is an optimized server for the
-          <a href="https://gemini.circumlunar.space/" target="_blank">
-          gemini protocol</a>. I hope to make this software easy to configure,
-          but alsohighly configurable.
-        </p>
-        <p>
-          The gemini protocol aims to be simple and unextensible. I like that,
-          however, I want to have servers be extensible. It would be nice to
-          have a central server that acts as a proxy to other servers in the
-          same domain. To allow the central server to cache pages to allow for
-          quicker response times. Along with so much more.
-        </p>
-        <h4>Dependencies</h4>
-        <p>
-            GemCaps depends on <a href="https://libuv.org/">libuv</a>: An
-            asynchronous multiplatform library that handles system calls
-            for you. It is the same library used by NodeJS. This allows me to
-            write low level optimized code that works on all architectures.
-        </p>
-        <p>
-            Another dependency of GemCaps is 
-            <a href="https://github.com/jbeder/yaml-cpp">YAML-cpp</a>, which
-            I'm using for reading/writing configuration files.
-        </p>
-        <hr>
-        <h3>Updates</h3>
-        <p>
-          <a href="updates/">See all updates</a>
-        </p>
+    <li><a href="/">Projects</a></li>
+    <li>GemCaps</li>
+  </ul>
+  <div class="float-overflow"><div class="d-flex align-items-center">
+        <h3 class="me-auto"><a href="/projects/gemcaps/">gemcaps</a></h3>
+        <h3 class="me-4"><a href="https://github.com/ttocsneb/gemcaps" target="_blank"><i class="fab fa-github" title="Github"></i></a></h3>
+      </div><p>Gemcaps is an optimized server for the <a href="https://gemini.circumlunar.space/">gemini protocol</a>. I hope to
+make this software easy to configure, but also highly configurable.</p>
+<p>The gemini protocol aims to be simple and unextensible. I like that, however,
+I want to have servers be extensible. I t would be nice to have a central
+server that acts as a proxy to other servers in the same domain. To allow the
+central server to cache pages to allow for quicker response times. Along with
+so much more.</p>
+<h4 id="dependencies">Dependencies</h4>
+<p>GemCaps depends on <a href="https://libuv.org/">libuv</a>: An asynchronous multiplatform library that 
+handles system calls for you. It is the same library used by NodeJS. This 
+allows me to write low level optimized code that works on all architectures.</p>
+<p>Another dependency of GemCaps is <a href="https://github.com/jbeder/yaml-cpp/">YAML-cpp</a>, which I&#39;m using for
+reading/writing configuration files.</p>
+
+    <hr>
+    <h3>Updates</h3><ul>
+        
+      </ul><p>
+      <a href="updates/">See all updates</a>
+    </p>
+  </div>
       </div>
     </div>
     <div class="navbar">
-        <ul class="nav-items ms-auto">
-            <li><a href="https://github.com/ttocsneb/website/"><i class="fab fa-github me-2"></i>Source</a></li>
-        </ul>
+      <ul class="nav-items ms-auto">
+        <li><a href="https://github.com/ttocsneb/website/"><i class="fab fa-github me-3"></i>Source</a></li>
+      </ul>
     </div>
 
     <script src="/js/main.js"></script>

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>BlueWeather</title>
@@ -11,13 +10,12 @@
   </head>
   <body>
     <nav class="navbar">
-      <h4><a href="/">Benjaminja</a></h4>
+      <h4><a  href="/">Benjaminja</a></h4>
       <ul class="nav-items">
         <li class="dropdown">
-          <a class="dropdown-toggle" href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
+          <a class="dropdown-toggle " href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
           <ul class="dropdown-menu">
-            <li><a class="active" href="#">BlueWeather</a></li>
-            <li><a href="/projects/gemcaps/">GemCaps</a></li>
+            <li><a  href="/projects/website/">Website</a></li><li><a  href="/projects/gemcaps/">GemCaps</a></li><li><a class=&quot;active&quot; href="/projects/blueweather/">BlueWeather</a></li>
           </ul>
         </li>
       </ul>
@@ -25,55 +23,42 @@
     <div class="body">
       <div class="container-sm mt-5">
         <ul class="path">
-            <li><a href="/">Projects</a></li>
-            <li>BlueWeather</li>
-        </ul>
-        <div class="d-flex align-items-center">
-            <h2>BlueWeather</h2>
-            <h2 class="ms-auto"><a href="https://github.com/ttocsneb/blueweather" target="_blank"><i class="fas fa-code-branch" title="Source"></i></a></h2>
-        </div>
-        <hr>
-        <img class="float-sm-right ms-sm-4" src="/images/chip_top.jpg" />
-        <p>
-          BlueWeather is a Personal Weather Station Server that can
-          collect weather data and deliver it directly to your device.
-        </p>
-        <p>
-          It is a highly extensible application to allow for the
-          possibility of any hardware to work with BlueWeather and to allow
-          for custom data processing.
-        </p>
-        <h3>Software</h3>
-        <p>
-          Blueweather is built using Python and Django. As for the
-          front-end, I've always had trouble deciding how I want the server
-          to interact with the front-end. Wether to build a front-end app,
-          or to have a minimal front-end; I have no idea. At the moment I'm
-          leaning towards having a mix to allow for easier extensibility.
-          For now, I know that the front-end will be based on Vue.
-        </p>
-        <h3>Hardware</h3>
-        <p>
-          The recommended hardware is a Raspberry Pi. This will allow for a
-          lot of possibilities for sensors. I do not plan to have an official
-          recommendation for sensors. This will not force people to use one
-          kind of equipment, but that means that there will be no softare
-          drivers for any equipment built-in to blueweather. All drivers will
-          need to be downloaded separately as a plugin.
-        </p>
-        <hr>
-        <h3>Updates</h3>
-        <ul>
-            <li><a href="updates/21-9-15/">September 15, 2021 - Getting Back to Work on the project</a></li>
-        </ul>
-        <p>
-          <a href="updates/">See all updates</a>
-        </p>
+    <li><a href="/">Projects</a></li>
+    <li>BlueWeather</li>
+  </ul>
+  <div class="float-overflow"><div class="d-flex align-items-center">
+        <h3 class="me-auto"><a href="/projects/blueweather/">blueweather</a></h3>
+        <h3 class="me-4"><a href="https://github.com/ttocsneb/blueweather" target="_blank"><i class="fab fa-github" title="Github"></i></a></h3>
+      </div><p><img src="/images/chip_top.jpg" alt="BlueWeather Chip"></p>
+<p>BlueWeather is a Personal Weather Station Server that can collect weatherdata
+and deliver it directly to your device.</p>
+<p>It is a highly extensible application to allow for the possibility of any
+hardware to work with BlueWeather and to allow for custom data processing.</p>
+<h3 id="software">Software</h3>
+<p>Blueweather is built using Python and Django. As for the front-end, I&#39;ve 
+always had trouble deciding how I want the server to interact with the
+front-end. Wether to build a front-end app, or to have a minimal front-end; I 
+have no idea. At the moment I&#39;m leaning towards having a mix to allow for 
+easier extensibility. For now, I know that the front-end will be based on Vue.</p>
+<h3 id="hardware">Hardware</h3>
+<p>The recommended hardware is a Raspberry Pi. This will allow for a lot of 
+possibilities for sensors. I do not plan to have an official recommendation 
+for sensors. This will not force people to use one kind of equipment, but that 
+means that there will be no softare drivers for any equipment built-in to 
+blueweather. All drivers will need to be downloaded separately as a plugin.</p>
+
+    <hr>
+    <h3>Updates</h3><ul>
+        <li><a href="/projects/blueweather/updates/2021/9/15/back_to_work">2021/9/15 - Getting Back to Work on the Project</a></li>
+      </ul><p>
+      <a href="updates/">See all updates</a>
+    </p>
+  </div>
       </div>
     </div>
     <div class="navbar">
       <ul class="nav-items ms-auto">
-        <li><a href="https://github.com/ttocsneb/website/"><i class="fab fa-github me-2"></i>Source</a></li>
+        <li><a href="https://github.com/ttocsneb/website/"><i class="fab fa-github me-3"></i>Source</a></li>
       </ul>
     </div>
 

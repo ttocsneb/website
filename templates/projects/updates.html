@@ -3,7 +3,7 @@
 {%- block body -%}
   <ul class="path">
     <li><a href="/">Projects</a></li>
-    <li><a href="{{ project.dest }}">{{ project.name }}</a></li>
+    <li><a href="{{ project.dest }}">{{ project.project.metadata.name }}</a></li>
     <li>Updates</li>
   </ul>
 
@@ -12,15 +12,15 @@
       <h3 class="ms-auto" title="RSS Feed"><a href="feed.xml" target="_blank"><i class="fas fa-rss"></i></a></h3>
   </div>
   <hr>
-  {% if years -%}
-    {%- for year in years -%}
-      <h3>{{ year.name }}</h3>
+  {% if project.updates.length > 0 -%}
+    {%- for year, months in years -%}
+      <h3>{{ year }}</h3>
       <div class="ms-5">
-        {% for month in year.months -%}
-          <h4>{{ month.name }}</h4>
+        {% for month, updates in months -%}
+          <h4>{{ month }}</h4>
           <ul class="ms-5">
-            {% for update in month.updates -%}
-              <li><a href="{{ update.dest }}">{{ update.date }} - {{ update.name }}</a></li>
+            {% for update in updates -%}
+              <li><a href="{{ update.dest }}">{{ update.date }} - {{ update.metadata.title }}</a></li>
             {%- endfor %}
           </ul>
         {%- endfor %}

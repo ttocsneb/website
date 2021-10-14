@@ -1,5 +1,6 @@
 ---
 name: GemCaps
+rss_desc: A Project Gemini Server
 socials:
   - name: Github
     dest: https://github.com/ttocsneb/gemcaps

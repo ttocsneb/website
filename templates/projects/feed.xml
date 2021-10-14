@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 <channel>
-  <title>Updates for {{ project.name }}</title>
+  <title>Updates for {{ project.project.metadata.name }}</title>
   <description>{{ project.project.metadata.rss_desc }}</description>
   <link>{{ domain }}{{ project.updates_dest }}</link>
   <lastBuildDate>{{ now | date }}</lastBuildDate>
