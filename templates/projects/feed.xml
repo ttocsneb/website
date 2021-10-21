@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <title>Updates for {{ project.project.metadata.name }}</title>
   <description>{{ project.project.metadata.rss_desc }}</description>
   <link>{{ domain }}{{ project.updates_dest }}</link>
+  <atom:link href="{{ domain }}{{ project.updates_dest }}rss.xml" rel="self" type="application/rss+xml" />
   <lastBuildDate>{{ now | date }}</lastBuildDate>
   {% if latest_update -%}
     <pubDate>{{ latest_update.metadata.date | date }}</pubDate>
   {%- endif %}
   <ttl>1800</ttl>
 
+  {% for update in project.updates -%}
   <item>
-    {% for update in project.updates -%}
-      <title>{{ update.metadata.title }}</title>
-      <description>{{ update.metadata.rss_desc }}</description>
-      <link>{{ domain }}{{ update.dest }}</link>
-      <guid isPermaLink="false">{{ update.metadata.uuid }}</guid>
-      <pubDate>{{ update.metadata.date | date }}</pubDate>
-    {%- endfor %}
+    <title>{{ update.metadata.title }}</title>
+    <description>{{ update.metadata.rss_desc }}</description>
+    <link>{{ domain }}{{ update.dest }}</link>
+    <guid isPermaLink="false">{{ update.metadata.uuid }}</guid>
+    <pubDate>{{ update.metadata.date | date }}</pubDate>
   </item>
+  {%- endfor %}
 
 </channel>
 </rss>

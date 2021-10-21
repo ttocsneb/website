@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>BlueWeather - Getting Back to Work on the Project</title>
+    <title>Website - Adding Quote of the Day</title>
 
     <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -25,26 +25,24 @@
       <div class="container-sm mt-5">
         <ul class="path">
       <li><a href="/">Projects</a></li>
-      <li><a href="/projects/blueweather/">BlueWeather</a></li>
-      <li><a href="/projects/blueweather//updates/">Updates</a></li>
-      <li>2021/9/15</li>
+      <li><a href="/projects/website/">Website</a></li>
+      <li><a href="/projects/website//updates/">Updates</a></li>
+      <li>2021/10/21</li>
   </ul>
-  <div class="float-overflow"><h3 class="me-auto">Getting Back to Work on the Project</h3><p>So I haven&#39;t been working on BlueWeather for a little while now. I&#39;m starting
-to get the itch again to continue development on the project. In this update,
-I&#39;m going to go over a few things that I want to prioritize while working on 
-BlueWeather.</p>
-<p>The big thing to work on is the front-end. I need to decide how I want the 
-front-end to act. Is it going to be a web-app where only API calls are made to 
-the back-end? Is it going to be a back-end only application where any updates 
-to the data require a refresh? Or is it going to be something in between those 
-two?</p>
-<p>At the moment, I like the idea of having a mix between the two options. I&#39;m 
-not sure how difficult that will actually end up being. Another important 
-factor to think about is what kind of work will need to be made to allow 
-plugins to get access to the front-end? The easiest solution for giving 
-plugins access would be to have no front-end at all.</p>
-<p>As I think about what I want do do about the front-end more and more: I want 
-to have a cat, a cute cat. Meow meow cat. </p>
+  <div class="float-overflow"><h3 class="me-auto">Adding Quote of the Day</h3><p>Part of the requirements for my web design class is to implement an API to our
+website. The website that I am making doesn&#39;t seem to have any viable things
+that I could make requests to. Sure, I could retreive the weather, but where
+should I get the weather from? Maybe I could have a quote of the day.</p>
+<p>The website that I am getting quotes from (<a href="https://quotes.rest/">quotes.rest</a>) has a quote
+of the day that I could retrieve. The only problem is that I don&#39;t want to make
+a request on every page--especially if the quote only changes once a day. So
+I&#39;ve decided to implement cookies to cache the quote of the day.</p>
+<p>When a quote is fetched, the quote is stored in a cookie with an expiration of
+midnight that night. Now the quote will no longer be fetched until the cookie
+expires. I do worry about whether the quote changes at the same time that the
+cookie expires. If it doesn&#39;t get updated at the same time, then it is possible
+that the same quote of the day will be displayed for two days in a row. Further
+testing is needed to check if this is possible or common.</p>
 
   </div>
       </div>

@@ -6,6 +6,7 @@
   "dependencies": {},
   "devDependencies": {
     "chokidar": "^3.5.2",
+    "js-cookie": "^3.0.1",
     "js-yaml": "^4.1.0",
     "marked": "^3.0.4",
     "nunjucks": "^3.2.3",

@@ -145,7 +145,6 @@ async function renderProject(project, projects) {
         }
         years[date[1]][month].push(update);
     }
-    console.log(JSON.stringify(years, undefined, 2));
 
     await render('projects/updates.html', path.resolve(project.updates_dest, 'index.html'), {
         title: `${project.project.metadata.name} - updates`,

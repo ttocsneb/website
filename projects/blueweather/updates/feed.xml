@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <title>Updates for BlueWeather</title>
   <description>A Personal Weather Station Server</description>
   <link>http://benjaminja.info/projects/blueweather/updates/</link>
-  <lastBuildDate>Wed, 13 Oct 2021 23:29:46 -0600</lastBuildDate>
+  <atom:link href="http://benjaminja.info/projects/blueweather/updates/rss.xml" rel="self" type="application/rss+xml" />
+  <lastBuildDate>Thu, 21 Oct 2021 11:24:04 -0600</lastBuildDate>
   <pubDate>Tue, 12 Oct 2021 01:27:44 -0600</pubDate>
   <ttl>1800</ttl>
 
   <item>
     <title>Getting Back to Work on the Project</title>
-      <description>I need to get back to work on blueweather</description>
-      <link>http://benjaminja.info/projects/blueweather/updates/2021/9/15/back_to_work</link>
-      <guid isPermaLink="false">e3fa5b5b-2b2d-11ec-83ec-0f4d80ecbfd5</guid>
-      <pubDate>Tue, 12 Oct 2021 01:27:44 -0600</pubDate>
+    <description>I need to get back to work on blueweather</description>
+    <link>http://benjaminja.info/projects/blueweather/updates/2021/9/15/back_to_work</link>
+    <guid isPermaLink="false">e3fa5b5b-2b2d-11ec-83ec-0f4d80ecbfd5</guid>
+    <pubDate>Tue, 12 Oct 2021 01:27:44 -0600</pubDate>
   </item>
 
 </channel>
