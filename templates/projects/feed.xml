@@ -4,7 +4,7 @@
   <title>Updates for {{ project.project.metadata.name }}</title>
   <description>{{ project.project.metadata.rss_desc }}</description>
   <link>{{ domain }}{{ project.updates_dest }}</link>
-  <atom:link href="{{ domain }}{{ project.updates_dest }}rss.xml" rel="self" type="application/rss+xml" />
+  <atom:link href="{{ domain }}{{ project.updates_dest }}feed.xml" rel="self" type="application/rss+xml" />
   <lastBuildDate>{{ now | date }}</lastBuildDate>
   {% if latest_update -%}
     <pubDate>{{ latest_update.metadata.date | date }}</pubDate>
