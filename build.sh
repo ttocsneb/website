@@ -1,5 +1,7 @@
 #!/bin/bash
-rm -r dist && \
+if [ -e dist ]; then
+    rm -r dist
+fi
 npm run build && \
 npm run sass && \
 npm run compile && \
