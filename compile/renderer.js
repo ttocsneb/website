@@ -5,7 +5,7 @@ const marked = require('marked');
 const utils = require('./utils');
 const dateFormat = require('./dateFormat').dateFormat;
 
-const render_dir = path.resolve(__dirname, '../');
+const render_dir = path.resolve(__dirname, '../dist');
 const domain = 'http://benjaminja.info';
 
 const now = new Date();
