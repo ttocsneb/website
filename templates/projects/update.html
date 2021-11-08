@@ -20,5 +20,9 @@
     {%- endif -%}
 
     {{ content | markdown | safe }}
+
+    <hr class="my-5">
+
+    <Comments id="{{ metadata.uuid }}" />
   </div>
 {%- endblock body -%}
