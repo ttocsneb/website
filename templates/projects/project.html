@@ -23,7 +23,7 @@
     {%- if project.updates -%}
       <ul>
         {% for update in project.updates -%}
-          <li><a href="{{ update.dest }}">{{ update.date }} - {{ update.metadata.title }}</a></li>
+          <li><a href="{{ update.dest }}">{{ update.pretty_date }} - {{ update.metadata.title }}</a></li>
         {%- endfor %}
       </ul>
     {%- endif -%}

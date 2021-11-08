@@ -5,7 +5,7 @@
       <li><a href="/">Projects</a></li>
       <li><a href="{{ project.dest }}">{{ project.project.metadata.name }}</a></li>
       <li><a href="{{ project.dest }}/updates/">Updates</a></li>
-      <li>{{ update.date }}</li>
+      <li>{{ update.pretty_date }}</li>
   </ul>
   <div class="float-overflow">
     {%- if metadata.socials -%}

@@ -20,7 +20,7 @@
           <h4>{{ month }}</h4>
           <ul class="ms-5">
             {% for update in updates -%}
-              <li><a href="{{ update.dest }}">{{ update.date }} - {{ update.metadata.title }}</a></li>
+              <li><a href="{{ update.dest }}">{{ update.datetime | date('d') }} - {{ update.metadata.title }}</a></li>
             {%- endfor %}
           </ul>
         {%- endfor %}
