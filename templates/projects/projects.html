@@ -3,7 +3,7 @@
 {%- block body -%}
   <h1>Projects</h1>
   <hr>
-  {%- for name, project in projects -%}
+  {%- for project in projects -%}
     <div class="float-overflow">
       {%- if project.project.metadata.socials -%}
         <div class="d-flex align-items-center">
@@ -13,14 +13,18 @@
           {%- endfor %}
         </div>
       {%- else -%}
-        <h3 class="me-auto"><a href="{{ project.project.dest }}">{{ name }}</a></h3>
+        <h3 class="me-auto"><a href="{{ project.project.dest }}">{{ project.project.metadata.name }}</a></h3>
       {%- endif -%}
 
       {{ project.summary.content | markdown | safe }}
 
       {%- if project.updates.length > 0 -%}
-        <p>
-          <small><a href="{{ project.updates_dest }}">{{ project.updates.length }} update{% if project.updates.length > 1 %}s{% endif %}</a></small>
+        <p class="text-gray">
+          <small>
+            <a href="{{ project.updates_dest }}">{{ project.updates.length }} update{% if project.updates.length > 1 %}s{% endif %}</a>
+            &mdash;
+            <a href="{{ project.latest_update.dest }}">{{ project.latest_update.metadata.title }}</a> on {{ project.latest_update.pretty_date }}
+          </small>
         </p>
       {%- endif -%}
     </div>

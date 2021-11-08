@@ -26,7 +26,10 @@ function nextClockSeq() {
  */
 async function preprocess(projects) {
     let updated = false;
-    for (let project of Object.values(projects)) {
+    for (let project of projects) {
+        project.dest = `/projects/${project.name}/`;
+        project.updates_dest = `${project.dest}updates/`;
+
         for (let update of project.updates) {
             if (!update.metadata.date) {
                 let stats = await utils.stat(update.path);
@@ -44,9 +47,29 @@ async function preprocess(projects) {
 
                 updated = true;
             }
-
+            update.datetime = new Date(update.metadata.date);
+            update.date = dateFormat(update.datetime, 'yyyy/m/d');
+            update.pretty_date = dateFormat(update.datetime, 'mmmm d, yyyy')
+            update.dest = `${project.updates_dest}${update.date}/${update.name}/`;
         }
+        project.updates.sort((a, b) => b.datetime - a.datetime);
+        project.latest_update = project.updates.length > 0 ? project.updates[0] : null;
     }
+
+    // Sort the projects by their latest update
+    projects.sort((a, b) => {
+        if (a.latest_update == null && b.latest_update == null) {
+            return a.name - b.name;
+        }
+        if (a.latest_update == null) {
+            return -1;
+        }
+        if (b.latest_update == null) {
+            return 1;
+        }
+        return b.latest_update.datetime - a.latest_update.datetime;
+    });
+
     return updated;
 }
 

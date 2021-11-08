@@ -22,7 +22,7 @@
         <li class="dropdown">
           <a class="dropdown-toggle {{ active('/', 'active') }}" href="#">Projects<i class="ms-2 fas fa-caret-down"></i></a>
           <ul class="dropdown-menu">
-            {% for name, project in projects -%}
+            {% for project in projects -%}
               <li><a {{ active(project.dest, 'class="active"') }} href="{{ macros.href(project.dest) }}">{{ project.project.metadata.name }}</a></li>
             {%- endfor %}
           </ul>

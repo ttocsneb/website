@@ -20,3 +20,15 @@
         }
     }
 }
+
+$text-colors: (
+    'light': $text-light,
+    'dark': $text-dark,
+    'gray': $text-gray,
+);
+
+.text {
+    @include map($text-colors) using ($color) {
+        color: $color;
+    }
+}

@@ -11,6 +11,7 @@ async function main() {
         }
 
         console.log("Rendering projects");
+        // console.debug(JSON.stringify(projects, undefined, 2));
         await renderer.renderProjects(projects);
     } catch (err) {
         console.error(err);

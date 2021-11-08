@@ -173,7 +173,7 @@ async function renderProject(project, projects) {
  * @param {object} projects 
  */
 async function renderProjects(projects) {
-    for (let project of Object.values(projects)) {
+    for (let project of projects) {
         await renderProject(project, projects);
     }
     await render('projects/projects.html', 'index.html', {
