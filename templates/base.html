@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body>
-    <nav class="navbar">
+    <nav id="nav" class="navbar">
       <h4><a {{ active('/', 'class="active"') }} href="{{ macros.href('/', path) }}">Benjaminja</a></h4>
       <ul class="nav-items">
         <li class="dropdown">
@@ -28,7 +28,9 @@
           </ul>
         </li>
       </ul>
-      <small id="qod" class="ms-sm-auto d-none" style="font-size: smaller;"></small>
+      <ul class="nav-items ms-sm-auto">
+        <li><login /></li>
+      </ul>
     </nav>
     <div class="body">
       <div id="app" class="container-sm mt-5">
@@ -36,12 +38,13 @@
         {% endblock body %}
       </div>
     </div>
+
     <div class="navbar">
+      <small id="qod" class="col-xs-12 col-sm-9 d-none" style="font-size: smallest;"></small>
       <ul class="nav-items ms-auto">
         <li><a href="https://github.com/ttocsneb/website/"><i class="fab fa-github me-3"></i>Source</a></li>
       </ul>
     </div>
-
     <script src="/js/main.js"></script>
   </body>
 </html>

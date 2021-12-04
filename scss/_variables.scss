@@ -49,6 +49,18 @@ $colors: (
     "white": $white
 );
 
+$color-pairs: (
+    "primary": ($primary, $text-color-light),
+    "secondary": ($secondary, $text-color-light),
+    "success": ($success, $text-color-light),
+    "danger": ($danger, $text-color-light),
+    "warning": ($warning, $text-color-light),
+    "info": ($info, $text-color-light),
+    "light": ($light, $text-dark),
+    "dark": ($dark, $text-light),
+    "white": ($white, $text-dark)
+);
+
 :root {
     --white: #{$color-white};
     --primary: #{$color-primary};

@@ -1,5 +1,6 @@
 const db = require('./db');
 const passwords = require('./passwords');
+const crypto = require('crypto');
 
 /**
  * 
@@ -64,11 +65,11 @@ async function createToken(user, lifetime) {
         lifetime = 7 * 24 * 3600; // Default 7 days
     }
     let time = new Date().getTime() + lifetime * 1000;
-    let token = crypto.randomBytes(128 / 8).toString('base64');
+    let token = crypto.randomBytes(32 * 6 / 8).toString('base64');
     let t = new db.Token({
         userID: user._id,
         token: token,
-        expiers: time,
+        expires: time,
     });
     await t.save();
     return t;

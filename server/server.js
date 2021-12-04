@@ -8,6 +8,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+app.use(express.static('../dist'));
 
 app.post('/api/user/create', async (req, res) => {
     // Assert account details
