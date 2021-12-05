@@ -25,6 +25,7 @@
 <script>
 import cookie from 'js-cookie';
 import axios from 'axios';
+import state from '../state';
 
 export default {
     name: "Login",
@@ -37,6 +38,7 @@ export default {
                 password: '',
             },
             error_msg: null,
+            state: state.state,
         };
     },
     methods: {
@@ -50,6 +52,7 @@ export default {
                     });
                     cookie.remove('XTOKEN');
                     this.loggedIn = false;
+                    this.state.setLoggedIn(false);
                 } catch (error) {
                     console.error(`could not logout: ${error}`)
                 }
@@ -72,6 +75,7 @@ export default {
                 });
 
                 if (response.data.success == true) {
+                    this.state.setLoggedIn(true);
                     this.loggedIn = true;
                     cookie.set('XTOKEN', response.data.token.token, {
                         domain: window.location.hostname,

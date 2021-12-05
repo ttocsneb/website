@@ -122,7 +122,9 @@ app.post('/api/comment/new', async (req, res) => {
     }
 
     try {
+        console.log("Checking user");
         let user = await users.checkToken(req.headers['xtoken']);
+        console.log(`Checked user ${user}`);
         if (user == null) {
             return res.status(403).send({
                 success: false,
@@ -137,9 +139,19 @@ app.post('/api/comment/new', async (req, res) => {
             postId: req.body.post,
         });
         await comment.save();
+        let returned_comment = {
+            author: {
+                _id: comment.authorId,
+                name: user.name,
+            },
+            comment: comment.comment,
+            postId: comment.postId,
+            time: comment.time,
+            _id: comment._id,
+        };
         return res.send({
             success: true,
-            comment,
+            comment: returned_comment,
         });
     } catch (error) {
         console.error(error);
@@ -231,18 +243,26 @@ app.get('/api/post/:id', async (req, res) => {
     try {
         let comments = await db.Comment.find({ postId: req.params.id }).sort({ time: 'desc' });
         // Populate the users for each comment
+        let comment_items = [];
         let users = {};
         for (let comment of comments) {
             if (users[comment.authorId] == undefined) {
                 let user = await db.User.findById(comment.authorId);
                 users[comment.authorId] = {
+                    _id: user._id,
                     name: user.name,
                 };
             }
-            comment.author = users[comment.authorId];
+            comment_items.push({
+                comment: comment.comment,
+                postId: comment.postId,
+                time: comment.time,
+                _id: comment._id,
+                author: users[comment.authorId],
+            });
         }
         return res.send({
-            comments
+            comments: comment_items,
         });
     } catch (error) {
         console.error(error);

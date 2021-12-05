@@ -67,7 +67,7 @@ async function createToken(user, lifetime) {
     let time = new Date().getTime() + lifetime * 1000;
     let token = crypto.randomBytes(32 * 6 / 8).toString('base64');
     let t = new db.Token({
-        userID: user._id,
+        userId: user._id,
         token: token,
         expires: time,
     });
@@ -89,7 +89,8 @@ async function checkToken(token) {
     if (found.expires < new Date().getTime()) {
         return null;
     }
-    return await User.findById(found.userId);
+    console.log(found);
+    return await db.User.findById(found.userId);
 }
 
 /**

@@ -1,77 +1,100 @@
 <template>
 <div class="my-4">
     <form class="d-flex flex-col" v-if="makingComment" @submit.prevent="makeComment">
-        <input class="cmt-name col-sm-3 my-3" type="text" v-model="form.name" name="name" placeholder="Name">
         <textarea class="cmt-comment my-3" v-model="form.comment" name="comment" placeholder="Comment"></textarea>
-        <button class="cmt-submit ms-auto col-6 col-sm-3 col-md-2 col-lg-1 my-3" type="submit">Comment</button>
+        <div class="row">
+            <button class="btn-warning cmt-cancel ms-auto mt-4 col-sm-3" type="reset" @click="onCancel">Cancel</button>
+            <button class="cmt-submit ms-sm-4 mt-4 col-sm-3" type="submit" :disabled="form.comment.length == 0">Comment</button>
+        </div>
     </form>
-    <div class="ms-auto" v-else>
+    <div class="ms-auto" v-else-if="state.isLoggedIn">
         <button @click="addComment">Add a comment</button>
     </div>
-    <hr class="my-4 comment-border">
+    <hr class="my-4 comment-border" v-if="state.isLoggedIn">
     <div class="comment mt-4" v-for="comment in comments" :key="comment.date">
         <div class="mb-4">
-            <h5 class="d-inline">{{ comment.name }}</h5>
-            <small>on {{ formatDate(comment.date) }}</small>
+            <h5 class="d-inline">{{ comment.author.name }}</h5>
+            <small>on {{ formatDate(comment.time) }}</small>
         </div>
-        <p>{{ comment.comment }}</p>
+        <div v-html="markdown(comment.comment)"></div>
     </div>
     <p v-if="comments.length == 0">
         There are no comments yet :/
-    </p>
-    <p class="text-gray mt-4">
-        <small>Please note that these comments are not yet implemented with a server.
-        For now, this is a mockup of how I want comments to appear and act in
-        the future.</small>
     </p>
 </div>
 </template>
 
 <script>
 import dateFormat from '../dateFormat'
-import mockData from '../mockData'
-
-// TODO: implement an server-side api that uses a UUID as the comment group
+import axios from 'axios';
+import cookie from 'js-cookie';
+import marked from 'marked';
+import DOMPurify from 'dompurify';
+import state from '../state';
 
 export default {
     name: "Comments",
     data() {
         return {
             form: {
-                name: '',
                 comment: '',
             },
             comments: [],
             makingComment: false,
+            state: state.state,
         };
     },
     props: {
         id: String,
     },
     methods: {
-        makeComment(event) {
-            this.comments.push({
-                name: this.form.name,
-                comment: this.form.comment,
-                date: new Date(),
-            });
-            this.makingComment = false;
-            this.form.name = '';
-            this.form.comment = '';
+        async makeComment(event) {
+            try {
+                let result = await axios.post('/api/comment/new', {
+                    comment: this.form.comment,
+                    post: this.id,
+                }, {
+                    headers: {
+                        XTOKEN: cookie.get('XTOKEN'),
+                    },
+                });
+                if (result.data.success == false) {
+                    console.error(`Could not post comment: ${result.data.msg}`);
+                    return;
+                }
+                this.comments.unshift(result.data.comment);
+                this.makingComment = false;
+                this.form.comment = '';
+            } catch (error) {
+                let response = error.response;
+                if (response.data.msg) {
+                    alert(`Could not make comment: ${response.data.msg}`);
+                } else {
+                    console.error(error)
+                }
+            }
         },
         addComment() {
             this.makingComment = true;
         },
         formatDate(date) {
             return dateFormat.dateFormat(date, "mmm dd, yy @ hh:MM tt");
+        },
+        onCancel() {
+            this.form.comment = null;
+            this.makingComment = false;
+        },
+        markdown(body) {
+            return DOMPurify.sanitize(marked.parse(body));
         }
     },
-    beforeMount() {
-        if (mockData.comments[this.id] != undefined) {
-            let arr = [];
-            mockData.comments[this.id].forEach((value) => {
-                this.comments.push(value);
-            });
+    async beforeMount() {
+        try {
+            // Fetch the post
+            let result = await axios.get(`/api/post/${this.id}`);
+            this.comments = result.data.comments;
+        } catch (error) {
+            console.error(error);
         }
     }
 };
