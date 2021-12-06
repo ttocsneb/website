@@ -28,7 +28,7 @@
                 </div>
                 <p class="color-warning" v-if="pass_warn"><small>{{ pass_warn }}</small></p>
                 <div class="row">
-                    <input class="input-light col ms-sm-4 mt-4" type="password" name="password" placeholder="password" v-model="create.password">
+                    <input class="input-light col mt-4" type="password" name="password" placeholder="password" v-model="create.password">
                     <input class="input-light col ms-sm-4 mt-4" type="password" name="password_conf" placeholder="confirm password" v-model="create.password_conf">
                 </div>
                 <div class="d-flex flex-wrap flex-sm-nowrap mt-3">
@@ -131,6 +131,7 @@ export default {
         swapLoginMode() {
             this.creatingAccount = !this.creatingAccount;
         },
+
         async on_create() {
             try {
                 let response = await axios.post('/api/user/create', {

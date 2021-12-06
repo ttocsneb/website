@@ -2,9 +2,16 @@ import cookie from 'js-cookie';
 
 let user = cookie.get('USER');
 
+// Fix a bug where the user was never logged in correctly
+if (user == 'undefined') {
+    cookie.remove('XTOKEN');
+    cookie.remove('USER');
+    user = undefined;
+}
+
 let state = {
     isLoggedIn: cookie.get('XTOKEN') != null,
-    user: user == null ? null : JSON.parse(user),
+    user: user == undefined ? null : JSON.parse(user),
     /**
      * Get the user token for authenticated requests
      * 

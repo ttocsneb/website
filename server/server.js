@@ -36,6 +36,11 @@ app.post('/api/user/create', async (req, res) => {
                 token: token.token,
                 expires: token.expires,
             },
+            user: {
+                _id: user._id,
+                name: user.name,
+                isAdmin: user.isAdmin,
+            }
         });
 
     } catch (error) {
