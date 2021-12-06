@@ -52,7 +52,7 @@ export default {
                     });
                     cookie.remove('XTOKEN');
                     this.loggedIn = false;
-                    this.state.setLoggedIn(false);
+                    this.state.logout();
                 } catch (error) {
                     console.error(`could not logout: ${error}`)
                 }
@@ -75,14 +75,8 @@ export default {
                 });
 
                 if (response.data.success == true) {
-                    this.state.setLoggedIn(true);
+                    this.state.login(response.data.user, response.data.token);
                     this.loggedIn = true;
-                    cookie.set('XTOKEN', response.data.token.token, {
-                        domain: window.location.hostname,
-                        path: "/",
-                        expires: new Date(response.data.token.expires),
-                        secure: true,
-                    });
                     this.showLogin = false;
                     this.error_msg = null;
                     this.login.username = '';

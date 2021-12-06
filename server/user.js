@@ -89,7 +89,6 @@ async function checkToken(token) {
     if (found.expires < new Date().getTime()) {
         return null;
     }
-    console.log(found);
     return await db.User.findById(found.userId);
 }
 

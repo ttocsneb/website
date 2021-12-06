@@ -1,7 +1,10 @@
 import cookie from 'js-cookie';
 
+let user = cookie.get('USER');
+
 let state = {
     isLoggedIn: cookie.get('XTOKEN') != null,
+    user: user == null ? null : JSON.parse(user),
     /**
      * Get the user token for authenticated requests
      * 
@@ -11,12 +14,30 @@ let state = {
         return cookie.get('XTOKEN');
     },
     /**
-     * Set whether the user is logged in
+     * Login the user
      * 
-     * @param {boolean} loggedIn 
+     * @param {object} account 
+     * @param {{token: string, expires: number}} token 
      */
-    setLoggedIn(loggedIn) {
-        this.isLoggedIn = loggedIn;
+    login(account, token) {
+        cookie.set('XTOKEN', token.token, {
+            expires: new Date(token.expires),
+            secure: true,
+            path: '/',
+        });
+        cookie.set('USER', JSON.stringify(account), {
+            expires: new Date(token.expires),
+            secure: true,
+            path: '/',
+        });
+        this.isLoggedIn = true;
+        this.user = account;
+    },
+    logout() {
+        cookie.remove('XTOKEN');
+        cookie.remove('USER');
+        this.isLoggedIn = false;
+        this.user = null;
     }
 };
 

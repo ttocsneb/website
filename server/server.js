@@ -78,6 +78,11 @@ app.post('/api/user/login', async (req, res) => {
                 token: token.token,
                 expires: token.expires,
             },
+            user: {
+                _id: user._id,
+                name: user.name,
+                isAdmin: user.isAdmin,
+            }
         });
     } catch (error) {
         console.error(error);
@@ -122,9 +127,7 @@ app.post('/api/comment/new', async (req, res) => {
     }
 
     try {
-        console.log("Checking user");
         let user = await users.checkToken(req.headers['xtoken']);
-        console.log(`Checked user ${user}`);
         if (user == null) {
             return res.status(403).send({
                 success: false,
@@ -177,7 +180,7 @@ app.delete('/api/comment/delete/:id', async (req, res) => {
         }
 
         let comment = await db.Comment.findById(req.params.id);
-        if (comment == null || comment.authorId != user._id) {
+        if (comment == null || (comment.authorId != user._id && !user.isAdmin)) {
             return res.status(403).send({
                 success: false,
                 msg: "You are not allowed to remove that comment",
@@ -224,14 +227,24 @@ app.post('/api/comment/edit/:id', async (req, res) => {
                 msg: "You are not allowed to edit that comment",
             });
         }
-
-        comment = await db.Comment.findByIdAndUpdate(req.params.id, {
+        let new_time = new Date().getTime();
+        await db.Comment.findByIdAndUpdate(req.params.id, {
             comment: req.body.comment,
-            time: new Date().getTime(),
+            time: new_time,
         });
+        let returned_comment = {
+            comment: req.body.comment,
+            postId: comment.postId,
+            time: new_time,
+            _id: comment._id,
+            author: {
+                _id: user._id,
+                name: user.name,
+            },
+        };
         return res.send({
             success: true,
-            comment,
+            comment: returned_comment,
         });
     } catch (error) {
         console.error(error);
