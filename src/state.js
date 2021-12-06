@@ -22,12 +22,10 @@ let state = {
     login(account, token) {
         cookie.set('XTOKEN', token.token, {
             expires: new Date(token.expires),
-            secure: true,
             path: '/',
         });
         cookie.set('USER', JSON.stringify(account), {
             expires: new Date(token.expires),
-            secure: true,
             path: '/',
         });
         this.isLoggedIn = true;

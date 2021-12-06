@@ -35,5 +35,6 @@ module.exports = {
     plugins: [
         new VueLoaderPlugin(),
     ],
+    // mode: 'development',
     mode: 'production',
 };

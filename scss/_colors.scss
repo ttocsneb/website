@@ -1,11 +1,11 @@
 
 .color {
     @include map($colors) using ($color) {
-        color: $color;
+        color: $color !important;
     }
     @include sizes {
         @include map($colors) using ($color) {
-            color: $color;
+            color: $color !important;
         }
     }
 }

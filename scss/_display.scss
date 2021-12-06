@@ -109,13 +109,13 @@ $align-content: (
 }
 
 .order {
-    @for $i from 1 through 6 {
+    @for $i from 0 through 5 {
         &-#{$i} {
             order: $i;
         }
     }
     @include sizes {
-        @for $i from 1 through 6 {
+        @for $i from 0 through 5 {
             &-#{$i} {
                 order: $i;
             }

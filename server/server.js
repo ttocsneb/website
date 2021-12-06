@@ -30,7 +30,7 @@ app.post('/api/user/create', async (req, res) => {
         let user = await users.createUser(req.body.name, req.body.email, req.body.password, false);
         let token = await users.createToken(user);
 
-        return res.status(400).send({
+        return res.send({
             success: true,
             token: {
                 token: token.token,
